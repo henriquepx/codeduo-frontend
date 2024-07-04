@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import BackgroundImage from '../assets/img2.jpg';
+import Form from '../components/Form';
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -17,6 +18,9 @@ const FormContainer = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
+  @media (max-width: 650px) {
+    width: 90%;
+  }
 `;
 
 const PhotosSlider = styled.div`
@@ -28,6 +32,9 @@ const PhotosSlider = styled.div`
   background-repeat: no-repeat;
   position: relative;
   border-radius: 25px;
+  @media (max-width: 650px) {
+    display: none;
+  }
 `;
 
 const TextContainer = styled.div`
@@ -64,7 +71,7 @@ const Login: React.FC = () => {
         </TextContainer>
       </PhotosSlider>
       <FormContainer>
-        {/* Formulário de login */}
+          <Form />
       </FormContainer>
     </LoginPageContainer>
   );
