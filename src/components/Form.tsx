@@ -1,6 +1,10 @@
+import React from 'react';
 import styled from 'styled-components';
 import Logo from '/logo.svg';
 import GoogleIcon from '../assets/image.png';
+import { useForm, SubmitHandler } from 'react-hook-form'; // Adicionado
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
 interface FormProps {
   toggleForm: () => void;
@@ -11,24 +15,20 @@ const FormContainer = styled.form`
   margin: 0 auto;
   width: 100%;
   padding: 1rem; 
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
-
 const FormInputContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%; 
   gap: 5px; 
-
   label {
     font-weight: bold;
-    margin-right : auto;
+    margin-right: auto;
   }
-
   input {
     padding: 10px 0;
     border-radius: 5px; 
@@ -36,12 +36,10 @@ const FormInputContainer = styled.div`
     padding-left: 1rem;
   }
 `;
-
 const LogoProject = styled.img`
   width: 170px;
   margin-bottom: 2rem;
 `;
-
 const Button = styled.button`
   width: 100%; 
   padding: 10px; 
@@ -68,7 +66,7 @@ const Register = styled.p`
       color: #000000;
     }
   }
-`
+`;
 const Divider = styled.p`
   height: 1px;
   background-color: #cacaca;
@@ -84,15 +82,12 @@ const Divider = styled.p`
     height: 1px;
     background-color: #cacaca;
   }
-
   &::before {
     margin-right: 10px;
   }
-
   &::after {
     margin-left: 10px;
   }
-
   span {
     position: absolute;
     top: -13px;
@@ -111,7 +106,7 @@ const LoginWithGoogle = styled.a`
   gap: 10px;
   width: 100%;
   border: 1px solid #cacaca;
-  padding: .2rem 0;
+  padding: .8rem 0;
   border-radius: 10px;
   img {
     width: 17px;
@@ -121,7 +116,7 @@ const LoginWithGoogle = styled.a`
     font-size: .8rem;
     color: #000;
   }
-`
+`;
 const ContainerResetCheckbox = styled.div`
   display: flex;
   justify-content: space-between;
@@ -145,35 +140,63 @@ const ContainerResetCheckbox = styled.div`
       text-decoration: underline;
     }
   }
+`;
+
+const ErrorForm = styled.p`
+  color: red;
+  font-size: .8rem;
 `
+
+const loginSchema = z.object({
+  email: z.string().email('Email inválido').nonempty('Email é obrigatório'),
+  password: z.string().min(6, 'Senha deve ter no mínimo 6 caracteres').nonempty('Senha é obrigatória'),
+});
+
+type LoginFormInputs = z.infer<typeof loginSchema>;
+
 const Form: React.FC<FormProps> = ({ toggleForm }) => {
 
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
+    resolver: zodResolver(loginSchema)
+  });
+
+  const onSubmit: SubmitHandler<LoginFormInputs> = data => {
+    console.log(data);
+  };
+
   return (
-    <FormContainer>
+    <FormContainer onSubmit={handleSubmit(onSubmit)}>
       <LogoProject src={Logo} alt="logo" />
       <FormInputContainer>
         <label htmlFor="email">Email*</label>
-        <input type="email" id='email' placeholder='Enter your email' />
+        <input type="email" id='email' placeholder='Enter your email' {...register('email')} />
+        {errors.email && <ErrorForm>{errors.email.message}</ErrorForm>}
+        
         <label htmlFor="password">Senha*</label>
-        <input type="password" id='password' placeholder='Enter your password' />
-
+        <input type="password" id='password' placeholder='Enter your password' {...register('password')} />
+        {errors.password && <ErrorForm>{errors.password.message}</ErrorForm>}
+        
         <ContainerResetCheckbox>
-            <div>
-                <input type="checkbox" id='checkbox' />
-                <label htmlFor="checkbox">Lembrar-se</label>
-            </div>
-            <a>Esqueci a senha</a>
-            </ContainerResetCheckbox>
-            <Button onClick={(e) => e.preventDefault()}>Entrar</Button>
-            <Divider><span>ou</span></Divider>
-            <LoginWithGoogle href="#">
-                <img src={GoogleIcon} alt="Ícon do Google" />
-                <p>Continuar com Google</p>
-        </LoginWithGoogle> 
+          <div>
+            <input type="checkbox" id='checkbox' />
+            <label htmlFor="checkbox">Lembrar-se</label>
+          </div>
+          <a>Esqueci a senha</a>
+        </ContainerResetCheckbox>
+        
+        <Button type="submit">Entrar</Button>
+        
+        <Divider><span>ou</span></Divider>
+        
+        <LoginWithGoogle href="#">
+          <img src={GoogleIcon} alt="Ícon do Google" />
+          <p>Continuar com Google</p>
+        </LoginWithGoogle>
+        
         <Register>Não tem uma conta? <a href='#' onClick={toggleForm}>Registre-se</a></Register>
       </FormInputContainer>
     </FormContainer>
-  )
+  );
 }
 
-export default Form
+export default Form;
