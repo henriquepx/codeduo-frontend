@@ -2,6 +2,10 @@ import styled from 'styled-components';
 import Logo from '/logo.svg';
 import GoogleIcon from '../assets/image.png';
 
+interface FormProps {
+  toggleForm: () => void;
+}
+
 const FormContainer = styled.form`
   max-width: 350px;
   margin: 0 auto;
@@ -12,9 +16,6 @@ const FormContainer = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  @media (max-width: 650px) {
-    max-width: 600px;
-  }
 `;
 
 const FormInputContainer = styled.div`
@@ -145,7 +146,8 @@ const ContainerResetCheckbox = styled.div`
     }
   }
 `
-const Form = () => {
+const Form: React.FC<FormProps> = ({ toggleForm }) => {
+
   return (
     <FormContainer>
       <LogoProject src={Logo} alt="logo" />
@@ -162,13 +164,13 @@ const Form = () => {
             </div>
             <a>Esqueci a senha</a>
             </ContainerResetCheckbox>
-            <Button>Entrar</Button>
+            <Button onClick={(e) => e.preventDefault()}>Entrar</Button>
             <Divider><span>ou</span></Divider>
             <LoginWithGoogle href="#">
                 <img src={GoogleIcon} alt="Ícon do Google" />
                 <p>Continuar com Google</p>
         </LoginWithGoogle> 
-        <Register>Não tem uma conta? <a href='#'>Registre-se</a></Register>
+        <Register>Não tem uma conta? <a href='#' onClick={toggleForm}>Registre-se</a></Register>
       </FormInputContainer>
     </FormContainer>
   )

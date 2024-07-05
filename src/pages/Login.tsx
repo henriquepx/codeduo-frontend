@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import BackgroundImage from '../assets/img2.jpg';
 import Form from '../components/Form';
+import RegisterForm from '../components/Register';
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -60,6 +61,12 @@ const TextContainer = styled.div`
 `;
 
 const Login: React.FC = () => {
+  const [isLogin, setIsLogin] = useState(true);
+
+  const handleToggleForm = () => {
+    setIsLogin(!isLogin);
+  };
+
   return (
     <LoginPageContainer>
       <PhotosSlider>
@@ -71,7 +78,11 @@ const Login: React.FC = () => {
         </TextContainer>
       </PhotosSlider>
       <FormContainer>
-          <Form />
+        {isLogin ? (
+          <Form toggleForm={handleToggleForm} />
+        ) : (
+          <RegisterForm toggleForm={handleToggleForm} />
+        )}
       </FormContainer>
     </LoginPageContainer>
   );
