@@ -9,7 +9,8 @@ const LoginPageContainer = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  height: 98vh;
+  height: 100vh;
+  padding: 1.5rem;
 `;
 
 const FormContainer = styled.div`
@@ -18,7 +19,6 @@ const FormContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
   @media (max-width: 650px) {
     width: 90%;
   }
@@ -32,6 +32,7 @@ const PhotosSlider = styled.div`
   background-position: bottom;
   background-repeat: no-repeat;
   position: relative;
+  margin-left: 1rem;
   border-radius: 25px;
   @media (max-width: 650px) {
     display: none;
@@ -71,9 +72,6 @@ const Login: React.FC = () => {
     <LoginPageContainer>
       <PhotosSlider>
         <TextContainer>
-          <a href="https://linkproject1.com" target="_blank" rel="noopener noreferrer">
-            linkproject1.com
-          </a>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero impedit nam laudantium aliquid quaerat itaque dignissimos, asperiores soluta deleniti dolore nihil praesentium fugit magni. Eaque, tenetur expedita.</p>
         </TextContainer>
       </PhotosSlider>
