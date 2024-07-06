@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Logo from '/logo.svg';
 import GoogleIcon from '../assets/image.png';
-import { useForm, SubmitHandler } from 'react-hook-form'; // Adicionado
+import { useForm, SubmitHandler } from 'react-hook-form'; 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Link } from 'react-router-dom'; // Importação correta do Link
 import * as z from 'zod';
 
 interface FormProps {
@@ -20,6 +21,7 @@ const FormContainer = styled.form`
   justify-content: center;
   align-items: center;
 `;
+
 const FormInputContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,10 +38,12 @@ const FormInputContainer = styled.div`
     padding-left: 1rem;
   }
 `;
+
 const LogoProject = styled.img`
   width: 170px;
   margin-bottom: 2rem;
 `;
+
 const Button = styled.button`
   width: 100%; 
   padding: 10px; 
@@ -49,6 +53,7 @@ const Button = styled.button`
   font-weight: bold;
   cursor: pointer;
 `;
+
 const Register = styled.p`
   color: #000000;
   cursor: pointer;
@@ -67,6 +72,7 @@ const Register = styled.p`
     }
   }
 `;
+
 const Divider = styled.p`
   height: 1px;
   background-color: #cacaca;
@@ -99,6 +105,7 @@ const Divider = styled.p`
     color: #cacaca;
   }
 `;
+
 const LoginWithGoogle = styled.a`
   display: flex;
   justify-content: center;
@@ -117,6 +124,7 @@ const LoginWithGoogle = styled.a`
     color: #000;
   }
 `;
+
 const ContainerResetCheckbox = styled.div`
   display: flex;
   justify-content: space-between;
@@ -184,7 +192,9 @@ const Form: React.FC<FormProps> = ({ toggleForm }) => {
           <a>Esqueci a senha</a>
         </ContainerResetCheckbox>
         
-        <Button type="submit">Entrar</Button>
+        <Link to="/dashboard">
+          <Button type="button">Entrar</Button>
+        </Link>
         
         <Divider><span>ou</span></Divider>
         
