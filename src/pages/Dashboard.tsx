@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import { FaHome, FaProjectDiagram, FaTasks, FaUsers, FaCog, FaQuestionCircle, FaSignOutAlt } from 'react-icons/fa';
 import { GoPlus } from "react-icons/go";
 import Logo from '/logo.svg';
-import Home from '../components/dashboard/Home';
-import Projects from '../components/dashboard/Projects';
-import Tasks from '../components/dashboard/Tasks';
-import Team from '../components/dashboard/Team';
-import Settings from '../components/dashboard/Settings';
+import Home from '../components/dashboard/Home/Home';
+import Projects from '../components/dashboard/Projects/Projects';
+import Tasks from '../components/dashboard/Tasks/Tasks';
+import Team from '../components/dashboard/Team/Team';
+import Settings from '../components/dashboard/Settings/Settings';
 
 const DashBoardContainer = styled.div`
   height: 100vh;
