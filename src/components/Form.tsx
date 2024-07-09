@@ -4,8 +4,9 @@ import Logo from '/logo.svg';
 import GoogleIcon from '../assets/image.png';
 import { useForm, SubmitHandler } from 'react-hook-form'; 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as z from 'zod';
+import axios from 'axios';
 
 interface FormProps {
   toggleForm: () => void;
@@ -155,15 +156,34 @@ const loginSchema = z.object({
 type LoginFormInputs = z.infer<typeof loginSchema>;
 
 const Form: React.FC<FormProps> = () => {
+  const [error, setError] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const navigate = useNavigate();
 
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
     resolver: zodResolver(loginSchema),
 
   });
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = data => {
-    console.log(data);
+  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+    try {
+      setError(false);
+      setLoading(true);
+      const response = await axios.post('/api/auth/signin', data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log(response.data);
+      setLoading(false);
+      navigate('/dashboard');
+    } catch (error) {
+      setLoading(false);
+      setError(true);
+      console.error(error);
+    }
   };
+
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
@@ -185,9 +205,9 @@ const Form: React.FC<FormProps> = () => {
           <a>Esqueci a senha</a>
         </ContainerResetCheckbox>
         
-        <Link to="/dashboard">
-          <Button type="button">Entrar</Button>
-        </Link>
+        <Button type="submit">{loading ? 'Carregando...' : 'Entrar'}</Button>
+
+        {error && <ErrorForm>Erro ao realizar o login.</ErrorForm>}
         
         <Divider><span>ou</span></Divider>
         

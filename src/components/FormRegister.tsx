@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Logo from '/logo.svg';
 import GoogleIcon from '../assets/image.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 interface RegisterProps {
@@ -141,6 +141,7 @@ const registerSchema = z.object({
 type RegisterFormInputs = z.infer<typeof registerSchema>;
 
 const RegisterForm: React.FC<RegisterProps> = () => {
+  const navigate = useNavigate();
   const [error, setError] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
@@ -159,6 +160,7 @@ const RegisterForm: React.FC<RegisterProps> = () => {
       });
       console.log(response.data);
       setLoading(false);
+      navigate('/');
     } catch (error) {
       setLoading(false);
       setError(true);
