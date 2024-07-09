@@ -5,7 +5,6 @@ import { IoChevronDownOutline } from "react-icons/io5";
 import { IoMdPersonAdd } from "react-icons/io";
 import HenriqueLogo from '../../../assets/henrique.png';
 import ContactHomeComponent from './ContactHomeComponents';
-import TaskHomeComponent from './TaskHomeComponent';
 
 const HomeContainer = styled.div`
   padding: 1.2rem;
@@ -23,7 +22,11 @@ const DateText = styled.span`
 const HeaderHome = styled.header`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  @media (max-width: 1000px) {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 15px;
+  }
 `;
 const ProfilePicture = styled.div`
   background-image: url(${HenriqueLogo});
@@ -64,6 +67,9 @@ const MainContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  @media (max-width: 1000px) {
+    flex-direction: column;
+  }
   div {
     width: 100%;
     background-color: #ececec;
@@ -92,6 +98,15 @@ const TaskHeader = styled.div`
       font-weight: 600;
       padding-right: 1rem;
       border-right: 1px solid #666;
+      @media (max-width: 600px) {
+        padding-right: 0rem;
+      border-right: 0px solid #666;
+      }
+    }
+    span {
+      @media (max-width: 600px) {
+        display: none;
+      }
     }
   }
 `;
@@ -126,28 +141,28 @@ const DropdownFilter = styled.div`
     cursor: pointer;
   }
 `;
-const TaskMain = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 100%;
-`;
 const MainSepare = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 2rem;
   width: 100%;
+  @media (max-width: 1350px) {
+    flex-wrap: wrap;
+  }
 `;
 const ContactsHome = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+  @media (max-width: 1350px) {
+    width: 100%;
+  }
 `;
 const ContactsHomeHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin: .6rem 0;
   h3 {
     font-size: 1rem;
     font-weight: 600;
@@ -163,30 +178,8 @@ const ContactsContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow-y: auto;
-  max-height: 350px; 
-  margin: 0.7rem 0;
 `;
 
-const TaskActivityContainer = styled.div`
-  width: 100%;
-  margin-top: 1rem;
-  overflow-y: auto;
-  max-height: 350px; 
-  position: relative;
-`;
-const TaskHeaderRow = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 2fr 1fr 1fr 1fr;
-  gap: 10px;
-  font-weight: bold;
-  padding: 1rem;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-`;
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState('');
@@ -247,7 +240,8 @@ const Home = () => {
         </MainContainer>
 
         <MainSepare>
-          <TaskHome>
+
+         <TaskHome>
             <TaskHeader>
               <div>
                 <h3>Tasks opens</h3>
@@ -264,53 +258,7 @@ const Home = () => {
                 )}
               </ButtonDropdownFilter>
             </TaskHeader>
-            <TaskMain>
-              <TaskActivityContainer>
-                <TaskHeaderRow>
-                  <div>Assignee</div>
-                  <div>Deadline</div>
-                  <div>Task</div>
-                  <div>Status</div>
-                  <div>Project</div>
-                  <div>See Details</div>
-                </TaskHeaderRow>
-                <TaskHomeComponent
-                  assignee="Henrique"
-                  deadline="12/07/2024"
-                  task="Complete the React project"
-                  status="In Progress"
-                  project="React App"
-                />
-                <TaskHomeComponent
-                  assignee="Agatha"
-                  deadline="12/06/2024"
-                  task="Fix bugs in dashboard"
-                  status="Review"
-                  project="Dashboard"
-                />
-                <TaskHomeComponent
-                  assignee="John"
-                  deadline="20/07/2024"
-                  task="Implement new feature"
-                  status="Done"
-                  project="Backend Service"
-                />
-                <TaskHomeComponent
-                  assignee="Henrique"
-                  deadline="11/07/2024"
-                  task="Menu hamburger"
-                  status="Review"
-                  project="Dashboard"
-                />
-                <TaskHomeComponent
-                  assignee="Carlos"
-                  deadline="20/07/2024"
-                  task="Implement new feature"
-                  status="Done"
-                  project="Backend Service"
-                />
-              </TaskActivityContainer>
-            </TaskMain>
+
           </TaskHome>
                 
           <ContactsHome>
@@ -348,7 +296,8 @@ const Home = () => {
                 work="Estágiario"
               />
             </ContactsContent>
-          </ContactsHome>
+          </ContactsHome> 
+
         </MainSepare>
       </MainHome>
     </HomeContainer>

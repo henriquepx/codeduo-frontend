@@ -4,7 +4,7 @@ import Logo from '/logo.svg';
 import GoogleIcon from '../assets/image.png';
 import { useForm, SubmitHandler } from 'react-hook-form'; 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link } from 'react-router-dom'; // Importação correta do Link
+import { Link } from 'react-router-dom';
 import * as z from 'zod';
 
 interface FormProps {
@@ -21,7 +21,6 @@ const FormContainer = styled.form`
   justify-content: center;
   align-items: center;
 `;
-
 const FormInputContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -38,12 +37,10 @@ const FormInputContainer = styled.div`
     padding-left: 1rem;
   }
 `;
-
 const LogoProject = styled.img`
   width: 170px;
   margin-bottom: 2rem;
 `;
-
 const Button = styled.button`
   width: 100%; 
   padding: 10px; 
@@ -53,7 +50,6 @@ const Button = styled.button`
   font-weight: bold;
   cursor: pointer;
 `;
-
 const Register = styled.p`
   color: #000000;
   cursor: pointer;
@@ -72,7 +68,6 @@ const Register = styled.p`
     }
   }
 `;
-
 const Divider = styled.p`
   height: 1px;
   background-color: #cacaca;
@@ -105,7 +100,6 @@ const Divider = styled.p`
     color: #cacaca;
   }
 `;
-
 const LoginWithGoogle = styled.a`
   display: flex;
   justify-content: center;
@@ -124,7 +118,6 @@ const LoginWithGoogle = styled.a`
     color: #000;
   }
 `;
-
 const ContainerResetCheckbox = styled.div`
   display: flex;
   justify-content: space-between;
@@ -149,7 +142,6 @@ const ContainerResetCheckbox = styled.div`
     }
   }
 `;
-
 const ErrorForm = styled.p`
   color: red;
   font-size: .8rem;
@@ -162,10 +154,11 @@ const loginSchema = z.object({
 
 type LoginFormInputs = z.infer<typeof loginSchema>;
 
-const Form: React.FC<FormProps> = ({ toggleForm }) => {
+const Form: React.FC<FormProps> = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema)
+    resolver: zodResolver(loginSchema),
+
   });
 
   const onSubmit: SubmitHandler<LoginFormInputs> = data => {
@@ -203,7 +196,7 @@ const Form: React.FC<FormProps> = ({ toggleForm }) => {
           <p>Continuar com Google</p>
         </LoginWithGoogle>
         
-        <Register>Não tem uma conta? <a href='#' onClick={toggleForm}>Registre-se</a></Register>
+        <Register>Não tem uma conta? <Link to="/register">Registre-se</Link></Register>
       </FormInputContainer>
     </FormContainer>
   );

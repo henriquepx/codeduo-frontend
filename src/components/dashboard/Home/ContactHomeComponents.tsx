@@ -10,7 +10,7 @@ const ContactPersonContainer = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 250px;
+    width: 100%;
     padding: .4rem 1rem;
     background-color: #ffffff;
     border-radius: 10px;

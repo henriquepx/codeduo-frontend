@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import BackgroundImage from '../assets/img2.jpg';
-import Form from '../components/Form';
+import FormRegister from '../components/FormRegister';
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -69,7 +69,7 @@ const Login = () => {
         </TextContainer>
       </PhotosSlider>
       <FormContainer>
-        <Form />
+        <FormRegister />
       </FormContainer>
     </LoginPageContainer>
   );

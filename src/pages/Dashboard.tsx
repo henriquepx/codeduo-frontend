@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { FaHome, FaProjectDiagram, FaTasks, FaUsers, FaCog, FaQuestionCircle, FaSignOutAlt } from 'react-icons/fa';
 import { GoPlus } from "react-icons/go";
 import Logo from '/logo.svg';
+import LogoMobile from '/icon.png';
 import Home from '../components/dashboard/Home/Home';
 import Projects from '../components/dashboard/Projects/Projects';
 import Tasks from '../components/dashboard/Tasks/Tasks';
@@ -15,7 +16,14 @@ const DashBoardContainer = styled.div`
   width: 100vw;
   overflow: hidden;
   background-color: #ececec;
-  padding: 55px;
+  padding: 35px;
+  @media (max-width: 1350px) {
+    height: 135vh;
+    padding: 15px;
+  }
+  @media (max-width: 1150px) {
+    height: 200vh;
+  }
 `;
 const DashBoardContent = styled.div`
   width: 100%;
@@ -39,7 +47,9 @@ const AsideInfo = styled.aside`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
+  @media (max-width: 768px) {
+    padding: .2rem;
+  }
   nav ul {
     list-style: none;
     padding: 0;
@@ -86,8 +96,18 @@ const HeaderAside = styled.div`
         width: 100%;
         align-items: center;
         justify-content: space-between;
+        p {
+          @media (max-width: 768px) {
+            display: none;
+          }
+        }
         svg {
           color: #000;
+        }
+        span {
+          @media (max-width: 1024px) {
+            display: none;
+          }
         }
       }
     }
@@ -96,6 +116,18 @@ const HeaderAside = styled.div`
 const ImgLogoAside = styled.img`
   width: 80%;
   padding: .5rem 1rem;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+const ImgLogoAsideMobile = styled.img`
+  width: 80%;
+  padding: .5rem 1rem;
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+    width: 100%;
+  }
 `;
 const FooterAsideMenu = styled.div`
   ul {
@@ -108,16 +140,19 @@ const FooterAsideMenu = styled.div`
       padding: 0.35rem 1rem;
       border-radius: 8px;
       cursor: pointer;
-
-      a {
-        color: #000000;
-      }
-
-      svg {
-        margin-right: 1rem;
-        color: #000000; 
-        font-size: 1rem;
-      }
+      p {
+          @media (max-width: 768px) {
+            display: none;
+          }
+        }
+        svg {
+          color: #000;
+        }
+        span {
+          @media (max-width: 1024px) {
+            display: none;
+          }
+        }
     }
   }
 `;
@@ -148,34 +183,39 @@ const Dashboard = () => {
         <AsideInfo>
           <HeaderAside>
             <ImgLogoAside src={Logo} alt="Logo do projeto" />
-
+            <ImgLogoAsideMobile src={LogoMobile} alt="Logo do projeto" />
             <nav>
               <ul>
                 <li className={activeTab === 'home' ? 'active' : ''} onClick={() => setActiveTab('home')}>
                   <div>
-                    <FaHome /> Home
+                    <FaHome />
+                    <p>Home</p>
                   </div>
                 </li>
                 <li className={activeTab === 'projects' ? 'active' : ''} onClick={() => setActiveTab('projects')}>
                   <div>
-                    <FaProjectDiagram /> Projects
+                    <FaProjectDiagram />
+                    <p>Projects</p>
                   </div>
-                  <GoPlus style={{marginRight: '.3rem', borderRadius: '50%', backgroundColor: '#e9e9e9', color: '#000', width: '1.2rem', height: '1.2rem', padding: '.1rem'}}/>
+                  <span><GoPlus style={{marginRight: '.3rem', borderRadius: '50%', backgroundColor: '#e9e9e9', color: '#000', width: '1.2rem', height: '1.2rem', padding: '.1rem'}}/></span>
                 </li>
                 <li className={activeTab === 'tasks' ? 'active' : ''} onClick={() => setActiveTab('tasks')}>
                   <div>
-                    <FaTasks /> Tasks
+                    <FaTasks />
+                    <p>Tasks</p>
                   </div>
-                  <GoPlus style={{marginRight: '.3rem', borderRadius: '50%', backgroundColor: '#e9e9e9', color: '#000', width: '1.2rem', height: '1.2rem', padding: '.1rem'}} />
+                  <span><GoPlus style={{marginRight: '.3rem', borderRadius: '50%', backgroundColor: '#e9e9e9', color: '#000', width: '1.2rem', height: '1.2rem', padding: '.1rem'}} /></span>
                 </li>
                 <li  className={activeTab === 'team' ? 'active' : ''}  onClick={() => setActiveTab('team')}>
                   <div>
-                    <FaUsers /> Team
+                    <FaUsers />
+                    <p>Team</p>
                   </div>
                 </li>
                 <li  className={activeTab === 'settings' ? 'active' : ''}  onClick={() => setActiveTab('settings')}>
                   <div>
-                    <FaCog /> Settings
+                    <FaCog />
+                    <p>Settings</p>
                   </div>
                 </li>
               </ul>
@@ -184,8 +224,16 @@ const Dashboard = () => {
       
           <FooterAsideMenu>
             <ul>
-              <li><FaQuestionCircle /> Help</li>
-              <li><FaSignOutAlt /><Link to="/"> Log out</Link></li>
+              <li>
+                <FaQuestionCircle />
+                <p>Help</p>
+              </li>
+              <li>
+                <FaSignOutAlt />
+                <Link to="/">
+                  <p>Log out</p>
+                </Link>
+              </li>
             </ul>
           </FooterAsideMenu>
         </AsideInfo>

@@ -5,6 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Logo from '/logo.svg';
 import GoogleIcon from '../assets/image.png';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 interface RegisterProps {
   toggleForm: () => void;
@@ -126,8 +128,9 @@ const LoginWithGoogle = styled.a`
 `;
 const ErrorForm = styled.p`
   color: red;
-  font-size: .8rem;
-`
+  font-size: 1rem;
+  margin: .5rem 0;
+`;
 
 const registerSchema = z.object({
   username: z.string().min(5, 'Nome de usuário deve ter no mínimo 5 caracteres').nonempty('Nome de usuário é obrigatório'),
@@ -137,14 +140,30 @@ const registerSchema = z.object({
 
 type RegisterFormInputs = z.infer<typeof registerSchema>;
 
-const RegisterForm: React.FC<RegisterProps> = ({ toggleForm }) => {
+const RegisterForm: React.FC<RegisterProps> = () => {
+  const [error, setError] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormInputs>({
     resolver: zodResolver(registerSchema)
   });
 
-  const onSubmit: SubmitHandler<RegisterFormInputs> = data => {
-    console.log(data);
+  const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
+    try {
+      setError(false);
+      setLoading(true);
+      const response = await axios.post('/api/auth/signup', data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log(response.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(true);
+      console.error(error);
+    }
   };
 
   return (
@@ -163,8 +182,10 @@ const RegisterForm: React.FC<RegisterProps> = ({ toggleForm }) => {
         <input type="password" id='password' placeholder='Enter your password' {...register('password')} />
         {errors.password && <ErrorForm>{errors.password.message}</ErrorForm>}
         
-        <Button type="submit">Registrar-se</Button>
+        <Button type="submit"> {loading ? 'Registrando...' : 'Registrar-se'}</Button>
 
+        {error && <ErrorForm>Erro ao registrar-se</ErrorForm>}
+        
         <Divider><span>ou</span></Divider>
         
         <LoginWithGoogle href="#">
@@ -172,7 +193,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ toggleForm }) => {
           <p>Continuar com Google</p>
         </LoginWithGoogle>
         
-        <Login>Já tem uma conta? <a href='#' onClick={toggleForm}>Entrar</a></Login>
+        <Login>Já tem uma conta? <Link to="/">Entrar</Link></Login>
       </FormInputContainer>
     </FormContainer>
   );
