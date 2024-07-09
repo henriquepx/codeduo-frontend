@@ -8,10 +8,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as z from 'zod';
 import axios from 'axios';
 
-interface FormProps {
-  toggleForm: () => void;
-}
-
 const FormContainer = styled.form`
   max-width: 350px;
   margin: 0 auto;
@@ -155,7 +151,7 @@ const loginSchema = z.object({
 
 type LoginFormInputs = z.infer<typeof loginSchema>;
 
-const Form: React.FC<FormProps> = () => {
+const Form = () => {
   const [error, setError] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();

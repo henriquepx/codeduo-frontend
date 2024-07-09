@@ -8,10 +8,6 @@ import GoogleIcon from '../assets/image.png';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-interface RegisterProps {
-  toggleForm: () => void;
-}
-
 const FormContainer = styled.form`
   max-width: 350px;
   margin: 0 auto;
@@ -140,7 +136,7 @@ const registerSchema = z.object({
 
 type RegisterFormInputs = z.infer<typeof registerSchema>;
 
-const RegisterForm: React.FC<RegisterProps> = () => {
+const RegisterForm = () => {
   const navigate = useNavigate();
   const [error, setError] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
