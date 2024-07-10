@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import Logo from '/logo.svg';
 import GoogleIcon from '../assets/image.png';
@@ -7,6 +6,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useNavigate } from 'react-router-dom';
 import * as z from 'zod';
 import axios from 'axios';
+import { signInFailure, signInSuccess, signInStart } from '../redux/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 const FormContainer = styled.form`
   max-width: 350px;
@@ -152,9 +154,9 @@ const loginSchema = z.object({
 type LoginFormInputs = z.infer<typeof loginSchema>;
 
 const Form = () => {
-  const [error, setError] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const { loading, error } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
     resolver: zodResolver(loginSchema),
@@ -163,20 +165,18 @@ const Form = () => {
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
-      setError(false);
-      setLoading(true);
+      dispatch(signInStart());
       const response = await axios.post('https://codeduo-backend.onrender.com/api/auth/signin', data, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
       console.log(response.data);
-      setLoading(false);
+      dispatch(signInSuccess(response.data));
       navigate('/dashboard');
     } catch (error) {
-      setLoading(false);
-      setError(true);
-      console.error(error);
+      dispatch(signInFailure(error));
+      console.log(error);
     }
   };
 
