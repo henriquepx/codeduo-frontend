@@ -132,9 +132,11 @@ const FooterAsideMenu = styled.div`
     li {
       display: flex;
       align-items: center;
+      gap: 12px;
       padding: 0.35rem 1rem;
       border-radius: 8px;
       cursor: pointer;
+      color: #000;
       p {
           @media (max-width: 768px) {
             display: none;
