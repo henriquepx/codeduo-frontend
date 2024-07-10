@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaCalendarAlt, FaSearch } from "react-icons/fa";
 import { IoChevronDownOutline } from "react-icons/io5";
-import { IoMdPersonAdd } from "react-icons/io";
 import HenriqueLogo from '../../../assets/henrique.png';
-import ContactHomeComponent from './ContactHomeComponents';
 
 const HomeContainer = styled.div`
   padding: 1.2rem;
@@ -77,6 +75,9 @@ const MainContainer = styled.div`
     border-radius: 10px;
     height: 200px;
     cursor: pointer;
+    @media (max-width: 1000px) {
+      height: 100px;
+    }
   }
 `;
 const TaskHome = styled.div`
@@ -150,36 +151,6 @@ const MainSepare = styled.div`
     flex-wrap: wrap;
   }
 `;
-const ContactsHome = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  @media (max-width: 1350px) {
-    width: 100%;
-  }
-`;
-const ContactsHomeHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  h3 {
-    font-size: 1rem;
-    font-weight: 600;
-  }
-  svg {
-    margin-right: .8rem;
-  }
-`
-const ContactsContent = styled.div`
-  background-color: #ececec;
-  border-radius: 10px;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
 
 const Home = () => {
   const [currentDate, setCurrentDate] = useState('');
@@ -258,45 +229,7 @@ const Home = () => {
                 )}
               </ButtonDropdownFilter>
             </TaskHeader>
-
           </TaskHome>
-                
-          <ContactsHome>
-            <ContactsHomeHeader>
-              <h3>Contacts</h3>
-              <IoMdPersonAdd size={24} style={{ cursor: 'pointer' }}/>
-            </ContactsHomeHeader>
-            <ContactsContent>
-              <ContactHomeComponent
-                title="Henrique"
-                work="Frontend"
-              />
-              <ContactHomeComponent
-                title="Agatha"
-                work="Backend"
-              />
-              <ContactHomeComponent
-                title="Bruno"
-                work="DevOps"
-              />
-              <ContactHomeComponent
-                title="John"
-                work="Product Owner"
-              />
-              <ContactHomeComponent
-                title="Guilherme"
-                work="Manager"
-              />
-              <ContactHomeComponent
-                title="Jake"
-                work="Data Scientist"
-              />
-              <ContactHomeComponent
-                title="Arthur"
-                work="Estágiario"
-              />
-            </ContactsContent>
-          </ContactsHome> 
 
         </MainSepare>
       </MainHome>

@@ -18,11 +18,7 @@ const DashBoardContainer = styled.div`
   background-color: #ececec;
   padding: 35px;
   @media (max-width: 1350px) {
-    height: 135vh;
     padding: 15px;
-  }
-  @media (max-width: 1150px) {
-    height: 200vh;
   }
 `;
 const DashBoardContent = styled.div`
@@ -33,14 +29,13 @@ const DashBoardContent = styled.div`
   position: relative;
   display: flex;
   box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
-
   a {
     text-decoration: none;
     color: #fff;
   }
 `;
 const AsideInfo = styled.aside`
-  height: 100%;
+  height: 97%;
   width: 17%;
   left: 0;
   padding: 1.5rem;
@@ -228,12 +223,12 @@ const Dashboard = () => {
                 <FaQuestionCircle />
                 <p>Help</p>
               </li>
+              <Link to="/">
               <li>
                 <FaSignOutAlt />
-                <Link to="/">
                   <p>Log out</p>
-                </Link>
-              </li>
+                </li>
+              </Link>
             </ul>
           </FooterAsideMenu>
         </AsideInfo>
