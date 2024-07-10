@@ -10,7 +10,6 @@ const LoginPageContainer = styled.div`
   height: 100vh;
   padding: 1.5rem;
 `;
-
 const FormContainer = styled.div`
   width: 45%;
   height: 100%;
@@ -21,7 +20,6 @@ const FormContainer = styled.div`
     width: 90%;
   }
 `;
-
 const PhotosSlider = styled.div`
   width: 55%;
   height: 100%;
@@ -36,7 +34,6 @@ const PhotosSlider = styled.div`
     display: none;
   }
 `;
-
 const TextContainer = styled.div`
   position: absolute;
   bottom: 20px;
@@ -60,7 +57,6 @@ const TextContainer = styled.div`
 `;
 
 const Login = () => {
-
   return (
     <LoginPageContainer>
       <PhotosSlider>

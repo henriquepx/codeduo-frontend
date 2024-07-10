@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FaHome, FaProjectDiagram, FaTasks, FaUsers, FaCog, FaQuestionCircle, FaSignOutAlt } from 'react-icons/fa';
 import { GoPlus } from "react-icons/go";
-import Logo from '/logo.svg';
-import LogoMobile from '/icon.png';
 import Home from '../components/dashboard/Home/Home';
 import Projects from '../components/dashboard/Projects/Projects';
 import Tasks from '../components/dashboard/Tasks/Tasks';
@@ -14,7 +12,6 @@ import Settings from '../components/dashboard/Settings/Settings';
 const DashBoardContainer = styled.div`
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
   background-color: #ececec;
   padding: 35px;
   @media (max-width: 1350px) {
@@ -35,124 +32,103 @@ const DashBoardContent = styled.div`
   }
 `;
 const AsideInfo = styled.aside`
-  height: 97%;
+  height: 96%;
   width: 17%;
   left: 0;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-top: .6rem;
+  @media (max-width: 1260px) {
+    padding: .5rem;
+  }
   @media (max-width: 768px) {
     padding: .2rem;
+    align-items: center;
   }
   nav ul {
-    list-style: none;
-    padding: 0;
-
     li {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.35rem 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-
-      div {
-        display: flex;
-        align-items: center;
-      }
-
-      svg {
-        margin-right: 1rem;
-        color: #000000; 
-        font-size: 1rem;
-      }
-
       &:hover {
         background-color: #e7e7e7;
       }
     }
   }
 `;
+const LiAsideInfo = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 0.35rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #000;
+  div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+`
 const AllContent = styled.div`
   background-color: #fcfcfc;
   padding: 1.5rem;
   height: 100%;
   width: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #dddddd transparent;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 `;
-const HeaderAside = styled.div`
-  nav {
-    margin-top: 2rem;
-    ul {
-      li {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: space-between;
-        p {
-          @media (max-width: 768px) {
-            display: none;
-          }
-        }
-        svg {
-          color: #000;
-        }
-        span {
-          @media (max-width: 1024px) {
-            display: none;
-          }
-        }
-      }
-    }
-  }
-`;
-const ImgLogoAside = styled.img`
-  width: 80%;
-  padding: .5rem 1rem;
+const HeaderAsideNav = styled.nav`
+  margin-top: 2rem;
+`
+const HeaderAsideLiP = styled.p`
   @media (max-width: 768px) {
     display: none;
   }
-`;
-const ImgLogoAsideMobile = styled.img`
-  width: 80%;
-  padding: .5rem 1rem;
-  display: none;
+`
+const HeaderAsideSpanSVG = styled.span`
   @media (max-width: 768px) {
-    display: block;
-    width: 100%;
+    display: none;
   }
+`
+const HeaderAside = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
-const FooterAsideMenu = styled.div`
-  ul {
-    list-style: none;
-    padding: 0;
-
-    li {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 0.35rem 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      color: #000;
-      p {
-          @media (max-width: 768px) {
-            display: none;
-          }
-        }
-        svg {
-          color: #000;
-        }
-        span {
-          @media (max-width: 1024px) {
-            display: none;
-          }
-        }
+const TitleAside = styled.h1`
+  font-size: 2.8vh;
+  font-weight: bold;
+  color: #000;
+  font-family: 'sa', sans-serif;
+  margin-left: 1rem;
+  @media (max-width: 768px) {
+    font-size: 2.5vh;
+    span {
+      display: none;
     }
   }
-`;
+`
+const UlFooterAside = styled.ul`
+  list-style: none;
+  padding: 0;
+`
+const LiFooterAside = styled.li`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.35rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #000;
+  p {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+`
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -179,60 +155,59 @@ const Dashboard = () => {
       <DashBoardContent>
         <AsideInfo>
           <HeaderAside>
-            <ImgLogoAside src={Logo} alt="Logo do projeto" />
-            <ImgLogoAsideMobile src={LogoMobile} alt="Logo do projeto" />
-            <nav>
+            <TitleAside>C<span>ode</span>D<span>uo</span></TitleAside>
+            <HeaderAsideNav>
               <ul>
-                <li className={activeTab === 'home' ? 'active' : ''} onClick={() => setActiveTab('home')}>
+                <LiAsideInfo className={activeTab === 'home' ? 'active' : ''} onClick={() => setActiveTab('home')}>
                   <div>
                     <FaHome />
-                    <p>Home</p>
+                    <HeaderAsideLiP>Home</HeaderAsideLiP>
                   </div>
-                </li>
-                <li className={activeTab === 'projects' ? 'active' : ''} onClick={() => setActiveTab('projects')}>
+                </LiAsideInfo>
+                <LiAsideInfo className={activeTab === 'projects' ? 'active' : ''} onClick={() => setActiveTab('projects')}>
                   <div>
                     <FaProjectDiagram />
-                    <p>Projects</p>
+                    <HeaderAsideLiP>Projects</HeaderAsideLiP>
                   </div>
-                  <span><GoPlus style={{marginRight: '.3rem', borderRadius: '50%', backgroundColor: '#e9e9e9', color: '#000', width: '1.2rem', height: '1.2rem', padding: '.1rem'}}/></span>
-                </li>
-                <li className={activeTab === 'tasks' ? 'active' : ''} onClick={() => setActiveTab('tasks')}>
+                  <HeaderAsideSpanSVG><GoPlus /></HeaderAsideSpanSVG>
+                </LiAsideInfo>
+                <LiAsideInfo className={activeTab === 'tasks' ? 'active' : ''} onClick={() => setActiveTab('tasks')}>
                   <div>
-                    <FaTasks />
-                    <p>Tasks</p>
+                    <FaTasks  />
+                    <HeaderAsideLiP>Tasks</HeaderAsideLiP>
                   </div>
-                  <span><GoPlus style={{marginRight: '.3rem', borderRadius: '50%', backgroundColor: '#e9e9e9', color: '#000', width: '1.2rem', height: '1.2rem', padding: '.1rem'}} /></span>
-                </li>
-                <li  className={activeTab === 'team' ? 'active' : ''}  onClick={() => setActiveTab('team')}>
+                  <HeaderAsideSpanSVG><GoPlus /></HeaderAsideSpanSVG>
+                </LiAsideInfo>
+                <LiAsideInfo className={activeTab === 'team' ? 'active' : ''} onClick={() => setActiveTab('team')}>
                   <div>
-                    <FaUsers />
-                    <p>Team</p>
+                    <FaUsers  />
+                    <HeaderAsideLiP>Team</HeaderAsideLiP>
                   </div>
-                </li>
-                <li  className={activeTab === 'settings' ? 'active' : ''}  onClick={() => setActiveTab('settings')}>
+                </LiAsideInfo>
+                <LiAsideInfo className={activeTab === 'settings' ? 'active' : ''} onClick={() => setActiveTab('settings')}>
                   <div>
                     <FaCog />
-                    <p>Settings</p>
+                    <HeaderAsideLiP>Settings</HeaderAsideLiP>
                   </div>
-                </li>
+                </LiAsideInfo>
               </ul>
-            </nav>
+            </HeaderAsideNav>
           </HeaderAside>
       
-          <FooterAsideMenu>
-            <ul>
-              <li>
+          <div>
+            <UlFooterAside>
+              <LiFooterAside>
                 <FaQuestionCircle />
                 <p>Help</p>
-              </li>
+              </LiFooterAside>
               <Link to="/">
-              <li>
-                <FaSignOutAlt />
+              <LiFooterAside>
+                <FaSignOutAlt  />
                   <p>Log out</p>
-                </li>
+                </LiFooterAside>
               </Link>
-            </ul>
-          </FooterAsideMenu>
+            </UlFooterAside>
+          </div>
         </AsideInfo>
 
         <AllContent>

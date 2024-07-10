@@ -39,21 +39,12 @@ const HeaderRight = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  div {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  svg {
-    color: #000000;
-    background-color: #ececec;
-    width: 35px;
-    height: 35px;
-    padding: 0.5rem;
-    border-radius: 30%;
-    cursor: pointer;
-  }
 `;
+const HeaderRightDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`
 const MainHome = styled.main`
   display: flex;
   flex-direction: column;
@@ -68,48 +59,45 @@ const MainContainer = styled.div`
   @media (max-width: 1000px) {
     flex-direction: column;
   }
-  div {
-    width: 100%;
-    background-color: #ececec;
-    padding: 1rem;
-    border-radius: 10px;
-    height: 200px;
-    cursor: pointer;
-    @media (max-width: 1000px) {
-      height: 100px;
-    }
-  }
 `;
+const MainContainerDiv = styled.div`
+  width: 100%;
+  background-color: #ececec;
+  padding: 1rem;
+  border-radius: 10px;
+  height: 300px;
+  cursor: pointer;
+`
 const TaskHome = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
 `;
+const TaskHeaderDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`
+const TaskHeaderH3 = styled.h3`
+  font-size: 1rem;
+  font-weight: 600;
+  padding-right: 1rem;
+  border-right: 1px solid #666;
+  @media (max-width: 600px) {
+    padding-right: 0rem;
+    border-right: 0px solid #666;
+  }
+`
+const TaskHeaderSpan = styled.span`
+  @media (max-width: 600px) {
+    display: none;
+  }
+`
 const TaskHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  div {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      padding-right: 1rem;
-      border-right: 1px solid #666;
-      @media (max-width: 600px) {
-        padding-right: 0rem;
-      border-right: 0px solid #666;
-      }
-    }
-    span {
-      @media (max-width: 600px) {
-        display: none;
-      }
-    }
-  }
 `;
 const ButtonDropdownFilter = styled.button`
   display: flex;
@@ -136,12 +124,12 @@ const DropdownFilter = styled.div`
   padding: 0.5rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 10;
-  p {
-    padding: 0.5rem;
-    margin: 0;
-    cursor: pointer;
-  }
 `;
+const DropdownFilterP = styled.p`
+  padding: 0.5rem;
+  margin: 0;
+  cursor: pointer;
+`
 const MainSepare = styled.div`
   display: flex;
   justify-content: space-between;
@@ -188,43 +176,43 @@ const Home = () => {
           <p>Track your projects, your goals and yours tasks and... do it.</p>  
         </div>
         <HeaderRight>
-          <div>
+          <HeaderRightDiv>
             <DateText>{currentDate}</DateText> 
-            <FaCalendarAlt />
-          </div>
-          <FaSearch />
+            <FaCalendarAlt style={{ cursor: 'pointer', color: '#000000', backgroundColor: '#ececec', width: '35px', height: '35px', padding: '0.5rem', borderRadius: '30%' }} />
+          </HeaderRightDiv>
+          <FaSearch style={{ cursor: 'pointer', color: '#000000', backgroundColor: '#ececec', width: '35px', height: '35px', padding: '0.5rem', borderRadius: '30%' }} />
           <ProfilePicture></ProfilePicture>
         </HeaderRight>
       </HeaderHome>
       
       <MainHome>
         <MainContainer>
-          <div>
+          <MainContainerDiv>
             <h2>Projects</h2>
-          </div>
-          <div>
+          </MainContainerDiv>
+          <MainContainerDiv>
             <h2>Overall information</h2>
-          </div>
-          <div>
+          </MainContainerDiv>
+          <MainContainerDiv>
             <h2>Team Activity</h2>
-          </div>
+          </MainContainerDiv>
         </MainContainer>
 
         <MainSepare>
 
          <TaskHome>
             <TaskHeader>
-              <div>
-                <h3>Tasks opens</h3>
-                <span>Done 80%</span>
-              </div>
+              <TaskHeaderDiv>
+                <TaskHeaderH3>Tasks opens</TaskHeaderH3>
+                <TaskHeaderSpan>Done 80%</TaskHeaderSpan>
+              </TaskHeaderDiv>
               <ButtonDropdownFilter onClick={handleDropdown}>
                 {selectedFilter} <IoChevronDownOutline />
                 {isDropdownActive && (
                   <DropdownFilter>
-                    <p onClick={() => handleFilterChange('Year')}>Year</p>
-                    <p onClick={() => handleFilterChange('Day')}>Day</p>
-                    <p onClick={() => handleFilterChange('Month')}>Month</p>
+                    <DropdownFilterP onClick={() => handleFilterChange('Year')}>Year</DropdownFilterP>
+                    <DropdownFilterP onClick={() => handleFilterChange('Day')}>Day</DropdownFilterP>
+                    <DropdownFilterP onClick={() => handleFilterChange('Month')}>Month</DropdownFilterP>
                   </DropdownFilter>
                 )}
               </ButtonDropdownFilter>
