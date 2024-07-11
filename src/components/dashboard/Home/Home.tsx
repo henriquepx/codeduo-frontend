@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaCalendarAlt, FaSearch } from "react-icons/fa";
 import { IoChevronDownOutline } from "react-icons/io5";
-import HenriqueLogo from '../../../assets/henrique.png';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { RootState } from '../../../redux/store';
+import ProfileCustom from './ProfileCustom';
 
 const HomeContainer = styled.div`
   padding: 1.2rem;
@@ -26,9 +29,7 @@ const HeaderHome = styled.header`
     gap: 15px;
   }
 `;
-const ProfilePicture = styled.div`
-  background-image: url(${HenriqueLogo});
-  background-size: contain;
+const ProfilePicture = styled.img`
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -117,13 +118,13 @@ const DropdownFilter = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 120%;
+  z-index: 880;
+  top: -430%;
   right: 0;
   background-color: #ececec;
   border-radius: 10px;
   padding: 0.5rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 10;
 `;
 const DropdownFilterP = styled.p`
   padding: 0.5rem;
@@ -141,9 +142,11 @@ const MainSepare = styled.div`
 `;
 
 const Home = () => {
+  const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState('');
   const [isDropdownActive, setIsDropdownActive] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('Week');
+  const [dropdownProfile, setDropdownProfile] = useState(false);
 
   useEffect(() => {
     const updateDate = () => {
@@ -168,11 +171,27 @@ const Home = () => {
     setIsDropdownActive(false);
   }
 
+  function handleDropdownProfile() {
+    setDropdownProfile(!dropdownProfile);
+  }
+
+  const currentUser = useSelector((state: RootState) => state.user.currentUser) as { username: string, profilePicture: string } | null;
+  
+  useEffect(() => {
+    if (!currentUser) {
+      navigate('/');
+    }
+  }, [currentUser, navigate]);
+
+  if (!currentUser) {
+    return null; 
+  }
+
   return (
     <HomeContainer>
       <HeaderHome>
         <div>
-          <TitlePage>Welcome, Henrique.</TitlePage>
+        <TitlePage>{currentUser ? `Welcome, ${currentUser.username}!` : 'Welcome!'}</TitlePage>
           <p>Track your projects, your goals and yours tasks and... do it.</p>  
         </div>
         <HeaderRight>
@@ -181,7 +200,10 @@ const Home = () => {
             <FaCalendarAlt style={{ cursor: 'pointer', color: '#000000', backgroundColor: '#ececec', width: '35px', height: '35px', padding: '0.5rem', borderRadius: '30%' }} />
           </HeaderRightDiv>
           <FaSearch style={{ cursor: 'pointer', color: '#000000', backgroundColor: '#ececec', width: '35px', height: '35px', padding: '0.5rem', borderRadius: '30%' }} />
-          <ProfilePicture></ProfilePicture>
+          <ProfilePicture src={currentUser.profilePicture} alt="Profile" onClick={handleDropdownProfile} />
+          {dropdownProfile && (
+            <ProfileCustom onClose={handleDropdownProfile} />
+          )}
         </HeaderRight>
       </HeaderHome>
       

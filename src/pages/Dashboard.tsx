@@ -137,14 +137,14 @@ const Dashboard = () => {
     switch (activeTab) {
       case 'home':
         return <Home />;
-      case 'projects':
-        return <Projects />;
+      case 'settings':
+        return <Settings />;
       case 'tasks':
         return <Tasks />;
       case 'team':
         return <Team />;
-      case 'settings':
-        return <Settings />;
+      case 'projects':
+        return <Projects />;
       default:
         return <Home />;
     }
@@ -164,12 +164,11 @@ const Dashboard = () => {
                     <HeaderAsideLiP>Home</HeaderAsideLiP>
                   </div>
                 </LiAsideInfo>
-                <LiAsideInfo className={activeTab === 'projects' ? 'active' : ''} onClick={() => setActiveTab('projects')}>
+                <LiAsideInfo className={activeTab === 'settings' ? 'active' : ''} onClick={() => setActiveTab('settings')}>
                   <div>
-                    <FaProjectDiagram />
-                    <HeaderAsideLiP>Projects</HeaderAsideLiP>
+                    <FaCog />
+                    <HeaderAsideLiP>Settings</HeaderAsideLiP>
                   </div>
-                  <HeaderAsideSpanSVG><GoPlus /></HeaderAsideSpanSVG>
                 </LiAsideInfo>
                 <LiAsideInfo className={activeTab === 'tasks' ? 'active' : ''} onClick={() => setActiveTab('tasks')}>
                   <div>
@@ -184,11 +183,12 @@ const Dashboard = () => {
                     <HeaderAsideLiP>Team</HeaderAsideLiP>
                   </div>
                 </LiAsideInfo>
-                <LiAsideInfo className={activeTab === 'settings' ? 'active' : ''} onClick={() => setActiveTab('settings')}>
+                <LiAsideInfo className={activeTab === 'projects' ? 'active' : ''} onClick={() => setActiveTab('projects')}>
                   <div>
-                    <FaCog />
-                    <HeaderAsideLiP>Settings</HeaderAsideLiP>
+                    <FaProjectDiagram />
+                    <HeaderAsideLiP>Projects</HeaderAsideLiP>
                   </div>
+                  <HeaderAsideSpanSVG><GoPlus /></HeaderAsideSpanSVG>
                 </LiAsideInfo>
               </ul>
             </HeaderAsideNav>

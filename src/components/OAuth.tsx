@@ -5,6 +5,7 @@ import { app } from '../firebase';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { signInSuccess } from '../redux/user/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const LoginWithGoogle = styled.button`
   display: flex;
@@ -28,6 +29,7 @@ const LoginWithGoogle = styled.button`
 
 const OAuth = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleGoogleClick = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -40,10 +42,11 @@ const OAuth = () => {
         email,
         photo: photoURL,
       });
-
-        const data = response.data;
-        console.log(data);
+      const data = response.data;
+      console.log(data);
+      console.log('Dispatching signInSucess');
       dispatch(signInSuccess(data));
+      navigate('/dashboard');
     } catch (error) {
       console.error(error);
     }
