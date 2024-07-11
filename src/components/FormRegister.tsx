@@ -4,9 +4,9 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Logo from '/logo.svg';
-import GoogleIcon from '../assets/image.png';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import OAuth from './OAuth';
 
 const FormContainer = styled.form`
   max-width: 350px;
@@ -104,24 +104,6 @@ const Divider = styled.p`
     color: #cacaca;
   }
 `;
-const LoginWithGoogle = styled.a`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  border: 1px solid #cacaca;
-  padding: .8rem 0;
-  border-radius: 10px;
-  img {
-    width: 17px;
-  }
-  p {
-    font-family: 'Montserrat', sans-serif;
-    font-size: .8rem;
-    color: #000;
-  }
-`;
 const ErrorForm = styled.p`
   color: red;
   font-size: 1rem;
@@ -186,10 +168,7 @@ const RegisterForm = () => {
         
         <Divider><span>ou</span></Divider>
         
-        <LoginWithGoogle href="#">
-          <img src={GoogleIcon} alt="Ícone do Google" />
-          <p>Continuar com Google</p>
-        </LoginWithGoogle>
+        <OAuth />
         
         <Login>Já tem uma conta? <Link to="/">Entrar</Link></Login>
       </FormInputContainer>

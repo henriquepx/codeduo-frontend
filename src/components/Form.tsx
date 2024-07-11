@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import Logo from '/logo.svg';
-import GoogleIcon from '../assets/image.png';
 import { useForm, SubmitHandler } from 'react-hook-form'; 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,6 +8,7 @@ import axios from 'axios';
 import { signInFailure, signInSuccess, signInStart } from '../redux/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import OAuth from './OAuth';
 
 const FormContainer = styled.form`
   max-width: 350px;
@@ -97,24 +97,6 @@ const Divider = styled.p`
     padding: 0 10px;
     font-family: 'Montserrat', sans-serif;
     color: #cacaca;
-  }
-`;
-const LoginWithGoogle = styled.a`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  border: 1px solid #cacaca;
-  padding: .8rem 0;
-  border-radius: 10px;
-  img {
-    width: 17px;
-  }
-  p {
-    font-family: 'Montserrat', sans-serif;
-    font-size: .8rem;
-    color: #000;
   }
 `;
 const ContainerResetCheckbox = styled.div`
@@ -207,10 +189,7 @@ const Form = () => {
         
         <Divider><span>ou</span></Divider>
         
-        <LoginWithGoogle href="#">
-          <img src={GoogleIcon} alt="Ícon do Google" />
-          <p>Continuar com Google</p>
-        </LoginWithGoogle>
+        <OAuth />
         
         <Register>Não tem uma conta? <Link to="/register">Registre-se</Link></Register>
       </FormInputContainer>
