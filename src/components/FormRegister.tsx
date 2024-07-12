@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import api from '../utils/axiosConfig';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Logo from '/logo.svg';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import OAuth from './OAuth';
 
 const FormContainer = styled.form`
@@ -131,7 +131,7 @@ const RegisterForm = () => {
     try {
       setError(false);
       setLoading(true);
-      const response = await axios.post('/api/auth/signup', data, {
+      const response = await api.post('/api/auth/signup', data, {
         headers: {
           'Content-Type': 'application/json',
         },

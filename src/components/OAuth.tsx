@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import GoogleIcon from '../assets/image.png';
+import api from '../utils/axiosConfig';
 import { GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth';
 import { app } from '../firebase';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { signInSuccess } from '../redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
@@ -37,7 +37,7 @@ const OAuth = () => {
       const result = await signInWithPopup(auth, provider);
       const { displayName, email, photoURL } = result.user;
 
-      const response = await axios.post('/api/auth/google', {
+      const response = await api.post('/api/auth/google', {
         name: displayName,
         email,
         photo: photoURL,

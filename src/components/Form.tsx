@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import Logo from '/logo.svg';
+import api from '../utils/axiosConfig';
 import { useForm, SubmitHandler } from 'react-hook-form'; 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useNavigate } from 'react-router-dom';
 import * as z from 'zod';
-import axios from 'axios';
 import { signInFailure, signInSuccess, signInStart } from '../redux/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
@@ -148,7 +148,7 @@ const Form = () => {
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
       dispatch(signInStart());
-      const response = await axios.post('/api/auth/signin', data, {
+      const response = await api.post('/api/auth/signin', data, {
         headers: {
           'Content-Type': 'application/json',
         },
