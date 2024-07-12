@@ -131,7 +131,7 @@ const RegisterForm = () => {
     try {
       setError(false);
       setLoading(true);
-      const response = await axios.post('https://codeduo-backend.onrender.com/api/auth/signup', data, {
+      const response = await axios.post('/api/auth/signup', data, {
         headers: {
           'Content-Type': 'application/json',
         },

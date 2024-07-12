@@ -37,7 +37,7 @@ const OAuth = () => {
       const result = await signInWithPopup(auth, provider);
       const { displayName, email, photoURL } = result.user;
 
-      const response = await axios.post('https://codeduo-backend.onrender.com/api/auth/google', {
+      const response = await axios.post('/api/auth/google', {
         name: displayName,
         email,
         photo: photoURL,
@@ -48,7 +48,7 @@ const OAuth = () => {
       dispatch(signInSuccess(data));
       navigate('/dashboard');
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 

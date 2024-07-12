@@ -148,7 +148,7 @@ const Form = () => {
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
       dispatch(signInStart());
-      const response = await axios.post('https://codeduo-backend.onrender.com/api/auth/signin', data, {
+      const response = await axios.post('/api/auth/signin', data, {
         headers: {
           'Content-Type': 'application/json',
         },
