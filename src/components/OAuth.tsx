@@ -36,17 +36,16 @@ const OAuth = () => {
       const auth = getAuth(app);
       const result = await signInWithPopup(auth, provider);
       const { displayName, email, photoURL } = result.user;
-
       const response = await api.post('/api/auth/google', {
         name: displayName,
         email,
         photo: photoURL,
       });
       const data = response.data;
-      console.log(data);
-      console.log('Dispatching signInSucess');
       dispatch(signInSuccess(data));
       navigate('/dashboard');
+      console.log(data);
+      console.log('Dispatching signInSucess');
     } catch (error) {
       console.log(error);
     }

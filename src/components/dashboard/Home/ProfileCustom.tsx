@@ -17,7 +17,6 @@ const ProfileCustomContainer = styled.div`
   width: 100%;
   height: 100%;
 `;
-
 const ProfileCustomContent = styled.div`
   background-color: #fff;
   padding: 30px;
@@ -26,7 +25,6 @@ const ProfileCustomContent = styled.div`
   width: 100%;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 `;
-
 const ProfilePhotoCustom = styled.img`
   cursor: pointer;
   border-radius: 50%;
@@ -35,7 +33,6 @@ const ProfilePhotoCustom = styled.img`
   object-fit: cover;
   margin-bottom: 10px;
 `;
-
 const Input = styled.input`
   width: 100%;
   padding: 10px;
@@ -44,7 +41,6 @@ const Input = styled.input`
   border-radius: 5px;
   font-size: 1rem;
 `;
-
 const Button = styled.button`
   width: 100%;
   padding: 10px;
@@ -60,7 +56,6 @@ const Button = styled.button`
     background-color: #0056b3;
   }
 `;
-
 const DangerButton = styled(Button)`
   background-color: #DC3545;
 
@@ -80,6 +75,7 @@ const ProfileCustom: React.FC<ProfileCustomProps> = ({ onClose }) => {
   const [image, setImage] = useState<File | undefined>(undefined);
   const [imagePercent, setImagePercent] = useState(0);
   const [imageError, setImageError] = useState(false);
+  const [formData, setFormData] = useState({ profilePicture: currentUser?.profilePicture || '' });
   
   console.log(imageError);
   console.log(imagePercent);
@@ -104,24 +100,25 @@ const ProfileCustom: React.FC<ProfileCustomProps> = ({ onClose }) => {
       (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setImagePercent(Math.round(progress));
-      });
+      },
     (error: Error) => {
         setImageError(true);
         console.log(error);
-    }
+    },
     () => {
       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        console.log('File available at', downloadURL);
+        setFormData({ ...formData, profilePicture: downloadURL });
       })
     }
-  };
+  )};
 
   return (
     <ProfileCustomContainer>
       <ProfileCustomContent>
         <h1>Atualizar Perfil</h1>
         <Input type="file" ref={fileRef} hidden accept='image/*' onChange={(e) => setImage(e.target.files?.[0] || undefined)} />
-        <ProfilePhotoCustom src={currentUser.profilePicture} onClick={() => fileRef.current?.click()} alt="Profile photo" />
+        <ProfilePhotoCustom src={formData.profilePicture || currentUser.profilePicture} onClick={() => fileRef.current?.click()} alt="Profile photo" />
+        {imageError ? <p>Erro ao carregar imagem</p> : ( imagePercent > 0 ? <p>Carregando imagem... {imagePercent}%</p> : null)}
         <Input defaultValue={currentUser.username} type="text" id='username' placeholder='Username' />
         <Input defaultValue={currentUser.email} type="email" id='email' placeholder='Email' />
         <Input type="password" id='password' placeholder='Password' />
