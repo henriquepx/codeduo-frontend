@@ -1,9 +1,11 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import api from '../../../utils/axiosConfig';
 import { RootState } from '../../../redux/store';
 import { useRef, useState, useEffect } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../../../firebase';
+import { updateUserFailure, updateUserStart, updateUserSuccess } from '../../../redux/user/userSlice';
 
 const ProfileCustomContainer = styled.div`
   position: fixed;
@@ -58,7 +60,6 @@ const Button = styled.button`
 `;
 const DangerButton = styled(Button)`
   background-color: #DC3545;
-
   &:hover {
     background-color: #c82333;
   }
@@ -69,16 +70,13 @@ interface ProfileCustomProps {
 }
 
 const ProfileCustom: React.FC<ProfileCustomProps> = ({ onClose }) => {
-  const currentUser = useSelector((state: RootState) => state.user.currentUser) as { profilePicture: string, username: string, email: string } | null;
-
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state: RootState) => state.user.currentUser) as { profilePicture: string, username: string, email: string, _id: string } | null;
   const fileRef = useRef<HTMLInputElement>(null);
   const [image, setImage] = useState<File | undefined>(undefined);
   const [imagePercent, setImagePercent] = useState(0);
   const [imageError, setImageError] = useState(false);
   const [formData, setFormData] = useState({ profilePicture: currentUser?.profilePicture || '' });
-  
-  console.log(imageError);
-  console.log(imagePercent);
 
   useEffect(() => {
     if (image) {
@@ -86,7 +84,7 @@ const ProfileCustom: React.FC<ProfileCustomProps> = ({ onClose }) => {
     }
   }, [image]);
 
- if (!currentUser) {
+  if (!currentUser) {
     return null;
   }
 
@@ -101,31 +99,59 @@ const ProfileCustom: React.FC<ProfileCustomProps> = ({ onClose }) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setImagePercent(Math.round(progress));
       },
-    (error: Error) => {
+      (error: Error) => {
         setImageError(true);
         console.log(error);
-    },
-    () => {
-      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        setFormData({ ...formData, profilePicture: downloadURL });
-      })
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setFormData({ ...formData, profilePicture: downloadURL });
+        });
+      }
+    );
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!currentUser) return; 
+    try {
+      dispatch(updateUserStart());
+      const response = await api.post(`/api/user/update/${currentUser._id}`, formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = response.data;
+      if (data.success === false) {
+        dispatch(updateUserFailure(data));
+        return;
+      }
+      dispatch(updateUserSuccess(data));
+    } catch (error) {
+      dispatch(updateUserFailure(error));
     }
-  )};
+  };
 
   return (
     <ProfileCustomContainer>
       <ProfileCustomContent>
         <h1>Atualizar Perfil</h1>
-        <Input type="file" ref={fileRef} hidden accept='image/*' onChange={(e) => setImage(e.target.files?.[0] || undefined)} />
-        <ProfilePhotoCustom src={formData.profilePicture || currentUser.profilePicture} onClick={() => fileRef.current?.click()} alt="Profile photo" />
-        {imageError ? <p>Erro ao carregar imagem</p> : ( imagePercent > 0 ? <p>Carregando imagem... {imagePercent}%</p> : null)}
-        <Input defaultValue={currentUser.username} type="text" id='username' placeholder='Username' />
-        <Input defaultValue={currentUser.email} type="email" id='email' placeholder='Email' />
-        <Input type="password" id='password' placeholder='Password' />
-        <Button>Update</Button>
-        <Button onClick={onClose}>Fechar</Button>
-        <DangerButton>Delete account</DangerButton>
-        <DangerButton>Sign out</DangerButton>
+        <form onSubmit={handleSubmit} action="">
+          <Input type="file" ref={fileRef} hidden accept='image/*' onChange={(e) => setImage(e.target.files?.[0] || undefined)} />
+          <ProfilePhotoCustom src={formData.profilePicture || currentUser.profilePicture} onClick={() => fileRef.current?.click()} alt="Profile photo" />
+          {imageError ? <p>Erro ao carregar imagem</p> : ( imagePercent > 0 ? <p>Carregando imagem... {imagePercent}%</p> : null)}
+          <Input defaultValue={currentUser.username} type="text" id='username' placeholder='Username' />
+          <Input defaultValue={currentUser.email} type="email" id='email' placeholder='Email' onChange={handleChange} />
+          <Input type="password" id='password' placeholder='Password' onChange={handleChange} />
+          <Button>Atualizar</Button>
+          <Button onClick={onClose}>Fechar</Button>
+          <DangerButton>Delete account</DangerButton>
+          <DangerButton>Sign out</DangerButton>
+        </form>
       </ProfileCustomContent>
     </ProfileCustomContainer>
   );
