@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import api from '../../../utils/axiosConfig';
 import { RootState } from '../../../redux/store';
 import { useRef, useState, useEffect } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../../../firebase';
-import { updateUserFailure, updateUserStart, updateUserSuccess } from '../../../redux/user/userSlice';
+import { updateUserFailure, updateUserStart, updateUserSuccess, deleteUserStart, deleteUserFailure, deleteUserSuccess, signOut } from '../../../redux/user/userSlice';
 
 const ProfileCustomContainer = styled.div`
   position: fixed;
@@ -120,12 +119,14 @@ const ProfileCustom: React.FC<ProfileCustomProps> = ({ onClose }) => {
     if (!currentUser) return; 
     try {
       dispatch(updateUserStart());
-      const response = await api.post(`/api/user/update/${currentUser._id}`, formData, {
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify(formData),
       });
-      const data = response.data;
+      const data = await res.json();
       if (data.success === false) {
         dispatch(updateUserFailure(data));
         return;
@@ -133,6 +134,32 @@ const ProfileCustom: React.FC<ProfileCustomProps> = ({ onClose }) => {
       dispatch(updateUserSuccess(data));
     } catch (error) {
       dispatch(updateUserFailure(error));
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(error));
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await fetch('/api/auth/signout');
+      dispatch(signOut())
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -149,8 +176,8 @@ const ProfileCustom: React.FC<ProfileCustomProps> = ({ onClose }) => {
           <Input type="password" id='password' placeholder='Password' onChange={handleChange} />
           <Button>Atualizar</Button>
           <Button onClick={onClose}>Fechar</Button>
-          <DangerButton>Delete account</DangerButton>
-          <DangerButton>Sign out</DangerButton>
+          <DangerButton onClick={handleDeleteAccount}>Delete account</DangerButton>
+          <DangerButton onClick={handleSignOut}>Sign out</DangerButton>
         </form>
       </ProfileCustomContent>
     </ProfileCustomContainer>
