@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Logo from '/logo.svg';
-import api from '../utils/axiosConfig';
+import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form'; 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useNavigate } from 'react-router-dom';
@@ -142,13 +142,12 @@ const Form = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
     resolver: zodResolver(loginSchema),
-
   });
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
       dispatch(signInStart());
-      const response = await api.post('/api/auth/signin', data, {
+      const response = await axios.post('/api/auth/signin', data, {
         headers: {
           'Content-Type': 'application/json',
         },

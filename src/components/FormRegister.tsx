@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import api from '../utils/axiosConfig';
+import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -131,7 +131,8 @@ const RegisterForm = () => {
     try {
       setError(false);
       setLoading(true);
-      const response = await api.post('/api/auth/signup', data, {
+      console.log('cadastrando')
+      const response = await axios.post('/api/auth/signup', data, {
         headers: {
           'Content-Type': 'application/json',
         },
