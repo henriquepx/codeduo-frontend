@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { FaHome, FaProjectDiagram, FaTasks, FaUsers, FaCog, FaQuestionCircle, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaProjectDiagram, FaShare , FaCog, FaQuestionCircle, FaSignOutAlt } from 'react-icons/fa';
+import { FaSlideshare } from "react-icons/fa6";
 import { GoPlus } from "react-icons/go";
 import Home from '../components/dashboard/Home/Home';
 import Projects from '../components/dashboard/Projects/Projects';
 import Tasks from '../components/dashboard/Tasks/Tasks';
-import Team from '../components/dashboard/Team/Team';
 import Settings from '../components/dashboard/Settings/Settings';
 
 const DashBoardContainer = styled.div`
@@ -137,14 +137,12 @@ const Dashboard = () => {
     switch (activeTab) {
       case 'home':
         return <Home />;
-      case 'settings':
-        return <Settings />;
       case 'tasks':
         return <Tasks />;
-      case 'team':
-        return <Team />;
       case 'projects':
         return <Projects />;
+      case 'settings':
+        return <Settings />;
       default:
         return <Home />;
     }
@@ -164,24 +162,12 @@ const Dashboard = () => {
                     <HeaderAsideLiP>Home</HeaderAsideLiP>
                   </div>
                 </LiAsideInfo>
-                <LiAsideInfo className={activeTab === 'settings' ? 'active' : ''} onClick={() => setActiveTab('settings')}>
-                  <div>
-                    <FaCog />
-                    <HeaderAsideLiP>Settings</HeaderAsideLiP>
-                  </div>
-                </LiAsideInfo>
                 <LiAsideInfo className={activeTab === 'tasks' ? 'active' : ''} onClick={() => setActiveTab('tasks')}>
                   <div>
-                    <FaTasks  />
-                    <HeaderAsideLiP>Tasks</HeaderAsideLiP>
+                    <FaSlideshare   />
+                    <HeaderAsideLiP>Invite</HeaderAsideLiP>
                   </div>
-                  <HeaderAsideSpanSVG><GoPlus /></HeaderAsideSpanSVG>
-                </LiAsideInfo>
-                <LiAsideInfo className={activeTab === 'team' ? 'active' : ''} onClick={() => setActiveTab('team')}>
-                  <div>
-                    <FaUsers  />
-                    <HeaderAsideLiP>Team</HeaderAsideLiP>
-                  </div>
+                  <HeaderAsideSpanSVG><FaShare  /></HeaderAsideSpanSVG>
                 </LiAsideInfo>
                 <LiAsideInfo className={activeTab === 'projects' ? 'active' : ''} onClick={() => setActiveTab('projects')}>
                   <div>
@@ -189,6 +175,12 @@ const Dashboard = () => {
                     <HeaderAsideLiP>Projects</HeaderAsideLiP>
                   </div>
                   <HeaderAsideSpanSVG><GoPlus /></HeaderAsideSpanSVG>
+                </LiAsideInfo>
+                <LiAsideInfo className={activeTab === 'settings' ? 'active' : ''} onClick={() => setActiveTab('settings')}>
+                  <div>
+                    <FaCog />
+                    <HeaderAsideLiP>Settings</HeaderAsideLiP>
+                  </div>
                 </LiAsideInfo>
               </ul>
             </HeaderAsideNav>

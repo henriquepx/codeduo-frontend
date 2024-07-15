@@ -136,7 +136,7 @@ const loginSchema = z.object({
 type LoginFormInputs = z.infer<typeof loginSchema>;
 
 const Form = () => {
-  const { loading, error } = useSelector((state: RootState) => state.user);
+  const { loading } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -183,8 +183,6 @@ const Form = () => {
         </ContainerResetCheckbox>
         
         <Button type="submit">{loading ? 'Carregando...' : 'Entrar'}</Button>
-
-        {error && <ErrorForm>Erro ao realizar o login.</ErrorForm>}
         
         <Divider><span>ou</span></Divider>
         
