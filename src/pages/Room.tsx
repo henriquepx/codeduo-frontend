@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { FaShare } from "react-icons/fa";
 import * as Monaco from 'monaco-editor';
 import MonacoEditor from 'react-monaco-editor';
 import { io } from 'socket.io-client';
@@ -30,12 +31,7 @@ const RoomInfo = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 1rem;
-  padding: 0 1rem;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  padding: 0 2rem;
 `;
 
 const CopyButton = styled.button`
@@ -46,6 +42,9 @@ const CopyButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 15px;
 
   &:hover {
     background: #303030;
@@ -59,7 +58,9 @@ const StyledLink = styled(Link)`
   border: none;
   border-radius: 5px;
   text-decoration: none;
-
+  display: flex;
+  align-items: center;
+  gap: 15px;
   &:hover {
     background: #5a6268;
   }
@@ -69,23 +70,32 @@ const Room = () => {
   const { roomId } = useParams<{ roomId: string }>();
   const [code, setCode] = useState<string>('write code and solve problems');
   const editorRef = useRef<Monaco.editor.IStandaloneCodeEditor | null>(null);
-  const socket = io('wss://codeduo-backend.onrender.com');
+  const socket = useRef(io('wss://codeduo-backend.onrender.com'));
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    socket.emit('joinRoom', roomId);
+    const socketInstance = socket.current;
+    socketInstance.emit('joinRoom', roomId);
 
-    socket.on('codeChange', (newCode: string) => {
+    socketInstance.on('codeChange', (newCode: string) => {
       setCode(newCode);
     });
 
     return () => {
-      socket.disconnect();
+      socketInstance.disconnect();
     };
   }, [roomId]);
 
   const handleEditorChange = (newCode: string) => {
     setCode(newCode);
-    socket.emit('codeChange', newCode);
+
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      socket.current.emit('codeChange', newCode);
+    }, 300); 
   };
 
   const copyToClipboard = () => {
@@ -100,15 +110,15 @@ const Room = () => {
   return (
     <RoomContainer>
       <RoomInfo>
-        <div>
-          <CopyButton onClick={copyToClipboard}>Copy Room URL</CopyButton>
-          <StyledLink to="/home">Back</StyledLink>
-        </div>
+          <CopyButton onClick={copyToClipboard}>Invite <FaShare  /></CopyButton>
+          <StyledLink to="/home">
+            <FaShare style={{ transform: 'scaleX(-1)' }} /> Back
+          </StyledLink>
       </RoomInfo>
       <EditorContainer>
         <MonacoEditor
           width="100%"
-          height="83vh"
+          height="100%"
           language="javascript"
           theme="vs-dark"
           value={code}
