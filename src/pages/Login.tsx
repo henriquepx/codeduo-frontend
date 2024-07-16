@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import BackgroundImage from '../assets/img2.jpg';
+import BackgroundImage from '../assets/wpp.png';
 import Form from '../components/Form';
 
 const LoginPageContainer = styled.div`
@@ -34,36 +34,11 @@ const PhotosSlider = styled.div`
     display: none;
   }
 `;
-const TextContainer = styled.div`
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 90%;
-  text-align: left;
-
-  a {
-    color: #ffffff;
-    text-decoration: underline;
-    margin-bottom: 10px;
-    display: block;
-  }
-  p {
-    font-size: 1.2rem;
-    margin: 0;
-  }
-`;
 
 const Login = () => {
   return (
     <LoginPageContainer>
-      <PhotosSlider>
-        <TextContainer>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero impedit nam laudantium aliquid quaerat itaque dignissimos, asperiores soluta deleniti dolore nihil praesentium fugit magni. Eaque, tenetur expedita.</p>
-        </TextContainer>
-      </PhotosSlider>
+      <PhotosSlider />
       <FormContainer>
         <Form />
       </FormContainer>

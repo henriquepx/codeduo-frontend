@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Logo from '/logo.svg';
+import Icon from '/icon.png';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form'; 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -35,10 +35,6 @@ const FormInputContainer = styled.div`
     border: 1px solid #eeeeee;
     padding-left: 1rem;
   }
-`;
-const LogoProject = styled.img`
-  width: 170px;
-  margin-bottom: 2rem;
 `;
 const Button = styled.button`
   width: 100%; 
@@ -127,6 +123,13 @@ const ErrorForm = styled.p`
   color: red;
   font-size: .8rem;
 `
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+`
 
 const loginSchema = z.object({
   email: z.string().email('Email inválido').nonempty('Email é obrigatório'),
@@ -154,7 +157,7 @@ const Form = () => {
       });
       console.log(response.data);
       dispatch(signInSuccess(response.data));
-      navigate('/dashboard');
+      navigate('/home');
     } catch (error) {
       dispatch(signInFailure(error));
       console.log(error);
@@ -164,7 +167,10 @@ const Form = () => {
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
-      <LogoProject src={Logo} alt="logo" />
+      <LogoContainer>
+        <img src={Icon} alt="Logo Codeduo" />
+        <h1>Codeduo</h1>
+      </LogoContainer>
       <FormInputContainer>
         <label htmlFor="email">Email*</label>
         <input type="email" id='email' placeholder='Enter your email' {...register('email')} />

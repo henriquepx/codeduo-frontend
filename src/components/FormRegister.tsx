@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import Logo from '/logo.svg';
+import Icon from '/icon.png';
 import { Link, useNavigate } from 'react-router-dom';
 import OAuth from './OAuth';
 
@@ -36,10 +36,6 @@ const FormInputContainer = styled.div`
     border: 1px solid #eeeeee;
     padding-left: 1rem;
   }
-`;
-const LogoProject = styled.img`
-  width: 170px;
-  margin-bottom: 2rem;
 `;
 const Button = styled.button`
   width: 100%; 
@@ -109,6 +105,13 @@ const ErrorForm = styled.p`
   font-size: 1rem;
   margin: .5rem 0;
 `;
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+`
 
 const registerSchema = z.object({
   username: z.string().min(5, 'Nome de usuário deve ter no mínimo 5 caracteres').nonempty('Nome de usuário é obrigatório'),
@@ -149,7 +152,10 @@ const RegisterForm = () => {
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
-      <LogoProject src={Logo} alt="logo" />
+      <LogoContainer>
+        <img src={Icon} alt="Logo Codeduo" />
+        <h1>Codeduo</h1>
+      </LogoContainer>
       <FormInputContainer>
         <label htmlFor="username">Nome de Usuário*</label>
         <input type="text" id='username' placeholder='Enter your username' {...register('username')} />
