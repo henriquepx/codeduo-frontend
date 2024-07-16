@@ -10,7 +10,9 @@ const RoomContainer = styled.div`
   flex-direction: column;
   height: 100vh;
   background: #f5f5f5;
+  overflow: hidden;
 `;
+
 const EditorContainer = styled.div`
   flex: 1;
   display: flex;
@@ -20,39 +22,57 @@ const EditorContainer = styled.div`
   background: #fff;
   margin: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 `;
+
 const RoomInfo = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1rem 0;
+  margin-top: 1rem;
   padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
-const RoomId = styled.h1`
-  font-size: 1.2rem;
-  color: #333;
-`;
+
 const CopyButton = styled.button`
-  background: #007bff;
+  background: #2b2b2b;
   color: white;
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-right: 1rem;
 
   &:hover {
-    background: #0056b3;
+    background: #303030;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  background: #313131;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+
+  &:hover {
+    background: #5a6268;
   }
 `;
 
 const Room = () => {
-  const { id } = useParams<{ id: string }>();
+  const { roomId } = useParams<{ roomId: string }>();
   const [code, setCode] = useState<string>('write code and solve problems');
   const editorRef = useRef<Monaco.editor.IStandaloneCodeEditor | null>(null);
   const socket = io('wss://codeduo-backend.onrender.com');
 
   useEffect(() => {
-    socket.emit('joinRoom', id);
+    socket.emit('joinRoom', roomId);
 
     socket.on('codeChange', (newCode: string) => {
       setCode(newCode);
@@ -61,7 +81,7 @@ const Room = () => {
     return () => {
       socket.disconnect();
     };
-  }, [id]);
+  }, [roomId]);
 
   const handleEditorChange = (newCode: string) => {
     setCode(newCode);
@@ -69,7 +89,7 @@ const Room = () => {
   };
 
   const copyToClipboard = () => {
-    const roomUrl = `${window.location.origin}/room/${id}`;
+    const roomUrl = `Entre na plataforma e clique em entrar na sala utilizando o seguinte roomId: ${roomId}`;
     navigator.clipboard.writeText(roomUrl).then(() => {
       alert('Room URL copied to clipboard');
     }, () => {
@@ -80,19 +100,17 @@ const Room = () => {
   return (
     <RoomContainer>
       <RoomInfo>
-        <RoomId>Room URL: {`${window.location.origin}/room/${id}`}</RoomId>
         <div>
           <CopyButton onClick={copyToClipboard}>Copy Room URL</CopyButton>
-          <Link to="/home">Back</Link>
+          <StyledLink to="/home">Back</StyledLink>
         </div>
-        
       </RoomInfo>
       <EditorContainer>
         <MonacoEditor
           width="100%"
-          height="70vh"
+          height="83vh"
           language="javascript"
-          theme="vs-light"
+          theme="vs-dark"
           value={code}
           editorDidMount={(editor) => (editorRef.current = editor)}
           onChange={handleEditorChange}
@@ -103,6 +121,10 @@ const Room = () => {
             minimap: { enabled: false },
             scrollBeyondLastLine: false,
             automaticLayout: true,
+            wordWrap: 'on',
+            smoothScrolling: false,
+            cursorSmoothCaretAnimation: 'off',
+            renderLineHighlight: 'none',
           }}
         />
       </EditorContainer>

@@ -23,8 +23,8 @@ const MenuContent = styled.div`
   flex-direction: column;
   border: 2px solid #ddd;
   border-radius: 15px;
-  padding: 2rem;
-  width: 80%;
+  padding: 1rem;
+  width: 100%;
   max-width: 600px;
 `;
 const Title = styled.h1`
@@ -63,7 +63,7 @@ const Icon = styled.a`
   transition: color 0.3s ease;
 
   &:hover {
-    color: #007bff;
+    color: #202020;
   }
 `;
 const ModalOverlay = styled.div`
@@ -77,6 +77,14 @@ const ModalOverlay = styled.div`
   justify-content: center;
   align-items: center;
 `;
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: .5rem;
+  font-weight: 700;
+  padding: 0 .5rem;
+`
 const ModalContent = styled.div`
   background: #fafafa;
   border: 2px solid #ddd;
@@ -94,20 +102,22 @@ const Input = styled.input`
   flex: 1;
   padding: 0.8rem;
   border: 1px solid #ccc;
-  border-radius: 15px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
   font-size: 1rem;
 `;
 const ConfirmButton = styled.button`
-  background: #007bff;
+  background: #1f1f1f;
   color: white;
   padding: 0.8rem;
   border: none;
-  border-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border: 1px solid transparent;
   cursor: pointer;
-  margin-left: 0.5rem;
 
   &:hover {
-    background: #0056b3;
+    background: #333333;
   }
 `;
 
@@ -155,7 +165,7 @@ const Home = () => {
         </div>
         
         <Description>
-          Uma plataforma de aprendizado e resolução de problemas do dia a dia de todo desenvolvedor. Crie uma sala e convide amigos para codar juntos ou resolver problemas específicos. Enjoy!
+          Crie uma sala e convide amigos para codar juntos ou resolver problemas específicos!
         </Description>
         
         <div>
@@ -179,7 +189,10 @@ const Home = () => {
       {isModalOpen && (
         <ModalOverlay>
           <ModalContent>
-            <IoIosClose onClick={handleCloseModal} size={40} />
+            <ModalHeader>
+              <p>enjoy ;)</p>
+              <IoIosClose onClick={handleCloseModal} size={40} style={{ cursor: 'pointer' }} />
+            </ModalHeader>
             <InputContainer>
               <Input
                 type="text"

@@ -46,7 +46,7 @@ const OAuth = () => {
       console.log(data);
       console.log('Dispatching signInSucess');
       dispatch(signInSuccess(data));
-      navigate('/dashboard');
+      navigate('/home');
     } catch (error) {
       console.error(error);
       console.log(error);
