@@ -135,7 +135,7 @@ const RegisterForm = () => {
       setError(false);
       setLoading(true);
       console.log('cadastrando')
-      const response = await axios.post('/api/auth/signup', data, {
+      const response = await axios.post('https://codeduo-backend.onrender.com/api/auth/signup', data, {
         headers: {
           'Content-Type': 'application/json',
         },

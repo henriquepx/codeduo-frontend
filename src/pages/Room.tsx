@@ -49,7 +49,7 @@ const Room = () => {
   const { id } = useParams<{ id: string }>();
   const [code, setCode] = useState<string>('write code and solve problems');
   const editorRef = useRef<Monaco.editor.IStandaloneCodeEditor | null>(null);
-  const socket = io('http://localhost:3000');
+  const socket = io('wss://codeduo-backend.onrender.com');
 
   useEffect(() => {
     socket.emit('joinRoom', id);
