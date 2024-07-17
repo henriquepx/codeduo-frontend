@@ -1,69 +1,96 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { ChangeEvent, KeyboardEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { FaChevronRight, FaGithub, FaLinkedin, FaTiktok } from 'react-icons/fa';
+import { FaChevronRight, FaInfoCircle, FaPlus } from 'react-icons/fa';
+import { BsFillDoorOpenFill } from "react-icons/bs";
+import { RiLogoutBoxFill } from "react-icons/ri";
 import { IoIosClose } from "react-icons/io";
+import HenriqueLogo from '../assets/henrique.png';
+import { Logo } from '../components/Logo';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import DropdownInfo from '../components/DropdownInfo';
 
 const HomeContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 100vh;
-  background: #fafafa;
-  padding: 2rem;
-  text-align: center;
+  width: 100vw;
+  background: #f8f9fa;
 `;
-const MenuContent = styled.div`
+const AsideHome = styled.aside`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  border-right: 1px solid #dee2e6;
+  color: #000;
+  width: 5rem;
+  padding: 2rem;
+`;
+const HeaderAsideHome = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+`;
+const SectionHomeContent = styled.section`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: calc(100vw - 5rem);
+`;
+const HeaderSection = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: #ffffff;
+  border-bottom: 1px solid #dee2e6;
+`;
+const HeaderLeftDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+const HeaderRightDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+const Main = styled.main`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border: 2px solid #ddd;
-  border-radius: 15px;
-  padding: 1rem;
-  width: 100%;
-  max-width: 600px;
-`;
+  text-align: center;
+  color: #333;
+  height: 90vh;
+`
 const Title = styled.h1`
   font-size: 1.5rem;
   font-weight: 700;
   color: #333;
 `;
-const Description = styled.p`
-  font-size: 1.2rem;
-  color: #666;
-  margin-bottom: .5rem;
-  line-height: 1.6;
-`;
-const Button = styled.button`
-  background: #272727;
-  color: white;
-  padding: 0.8rem 1.2rem;
-  border: none;
+const ButtonAside = styled.button`
+  background: #ffffff; 
+  color: #333;
+  padding: 0.7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
   border-radius: 15px;
   cursor: pointer;
   margin: 0.5rem;
+  transition: background 0.3s, border-color 0.3s;
 
   &:hover {
-    background: #4b4b4b;
-  }
-`;
-const SocialLinks = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-`;
-const Icon = styled.a`
-  color: #333;
-  font-size: 1.5rem;
-  margin: 0 10px;
-  transition: color 0.3s ease;
-
-  &:hover {
-    color: #202020;
+    background: #f1f1f1;
+    border-color: #bbb;
   }
 `;
 const ModalOverlay = styled.div`
@@ -81,23 +108,25 @@ const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   font-weight: 700;
-  padding: 0 .5rem;
-`
+  padding: 0 0.5rem;
+`;
 const ModalContent = styled.div`
-  background: #fafafa;
+  background: #ffffff;
   border: 2px solid #ddd;
   border-radius: 15px;
   padding: 1rem;
   width: 80%;
   max-width: 400px;
+  z-index: 999;
 `;
 const InputContainer = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
 `;
+
 const Input = styled.input`
   flex: 1;
   padding: 0.8rem;
@@ -107,24 +136,27 @@ const Input = styled.input`
   font-size: 1rem;
 `;
 const ConfirmButton = styled.button`
-  background: #1f1f1f;
-  color: white;
+  background: #ffffff;
+  color: #333;
   padding: 0.8rem;
   border: none;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
-  border: 1px solid transparent;
+  border: 1px solid #ccc;
   cursor: pointer;
-
+  transition: background 0.3s, border-color 0.3s;
   &:hover {
-    background: #333333;
+    background: #f1f1f1;
+    border-color: #bbb;
   }
 `;
 
 const Home = () => {
   const navigate = useNavigate();
-  const [roomId, setRoomId] = useState('');
+  const currentUser = useSelector((state: RootState) => state.user.currentUser); 
+  const [roomCode, setRoomCode] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
 
   const createRoom = () => {
     const id = uuidv4().slice(0, 5);
@@ -140,12 +172,12 @@ const Home = () => {
   };
 
   const handleRoomIdChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setRoomId(e.target.value);
+    setRoomCode(e.target.value);
   };
 
   const handleJoinRoom = () => {
-    if (roomId) {
-      navigate(`/room/${roomId}`);
+    if (roomCode) {
+      navigate(`/room/${roomCode}`);
       setIsModalOpen(false);
     }
   };
@@ -156,35 +188,40 @@ const Home = () => {
     }
   };
 
+  const toggleInfoDropdown = () => {
+    setIsInfoOpen(!isInfoOpen);
+  };
+
   return (
     <HomeContainer>
-      <MenuContent>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img src="/icon.png" alt="" />
-          <Title>CodeDuo</Title>
-        </div>
-        
-        <Description>
-          Crie uma sala e convide amigos para codar juntos ou resolver problemas específicos!
-        </Description>
-        
+      <AsideHome>
+        <HeaderAsideHome>
+          <Logo width={40} height={30} />
+          <div>
+            <ButtonAside onClick={createRoom}><FaPlus style={{ color: '#333' }} size={22} /></ButtonAside>
+            <ButtonAside onClick={handleJoinClick}><BsFillDoorOpenFill style={{ color: '#333' }} size={22} /></ButtonAside>
+            <ButtonAside onClick={toggleInfoDropdown}><FaInfoCircle style={{ color: '#333' }} size={22} /></ButtonAside>
+          </div>
+        </HeaderAsideHome>
         <div>
-          <Button onClick={createRoom}>Create Room</Button>
-          <Button onClick={handleJoinClick}>Join Room</Button>
+          <ButtonAside><Link to="/"><RiLogoutBoxFill size={24} style={{ color: '#333' }} /></Link></ButtonAside>
         </div>
-        
-        <SocialLinks>
-          <Icon href="https://www.linkedin.com/in/henriquepinheiroxavier/" target="_blank">
-            <FaLinkedin />
-          </Icon>
-          <Icon href="https://www.tiktok.com/@henriqqdev" target="_blank">
-            <FaTiktok />
-          </Icon>
-          <Icon href="https://github.com/henriquepx" target="_blank">
-            <FaGithub />
-          </Icon>
-        </SocialLinks>
-      </MenuContent>
+      </AsideHome>
+
+      <SectionHomeContent>
+        <HeaderSection>
+          <HeaderLeftDiv>
+            <Title>Olá, {currentUser?.username}!</Title>
+          </HeaderLeftDiv>
+          <HeaderRightDiv>
+            <img src={HenriqueLogo} style={{ width: '40px', borderRadius: '50%' }} alt="Foto de perfil" />
+          </HeaderRightDiv>
+        </HeaderSection>
+
+        <Main>
+          <h1>Bem vindo ao Codeduo</h1>
+        </Main>
+      </SectionHomeContent>
 
       {isModalOpen && (
         <ModalOverlay>
@@ -197,7 +234,7 @@ const Home = () => {
               <Input
                 type="text"
                 placeholder="Enter Room ID"
-                value={roomId}
+                value={roomCode}
                 onChange={handleRoomIdChange}
                 onKeyDown={handleKeyDown}
               />
@@ -207,6 +244,10 @@ const Home = () => {
             </InputContainer>
           </ModalContent>
         </ModalOverlay>
+      )}
+
+      {isInfoOpen && (
+        <DropdownInfo onClose={() => setIsInfoOpen(false)} />
       )}
     </HomeContainer>
   );

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Icon from '/icon.png';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form'; 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,6 +8,7 @@ import { signInFailure, signInSuccess, signInStart } from '../redux/user/userSli
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import OAuth from './OAuth';
+import { Logo } from './Logo';
 
 const FormContainer = styled.form`
   max-width: 350px;
@@ -21,6 +21,7 @@ const FormContainer = styled.form`
   align-items: center;
 `;
 const FormInputContainer = styled.div`
+margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
   width: 100%; 
@@ -41,7 +42,7 @@ const Button = styled.button`
   padding: 10px; 
   border-radius: 10px; 
   color: #fff;
-  background-color: #000000;
+  background-color: #242424;
   font-weight: bold;
   cursor: pointer;
 `;
@@ -123,13 +124,7 @@ const ErrorForm = styled.p`
   color: red;
   font-size: .8rem;
 `
-const LogoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  font-weight: 700;
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-`
+
 
 const loginSchema = z.object({
   email: z.string().email('Email inválido').nonempty('Email é obrigatório'),
@@ -159,7 +154,7 @@ const Form = () => {
       dispatch(signInSuccess(response.data));
       navigate('/home');
     } catch (error) {
-      dispatch(signInFailure(error));
+      dispatch(signInFailure(error as string));
       console.log(error);
     }
   };
@@ -167,10 +162,7 @@ const Form = () => {
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
-      <LogoContainer>
-        <img src={Icon} alt="Logo Codeduo" />
-        <h1>Codeduo</h1>
-      </LogoContainer>
+      <Logo width={60} height={38}/>
       <FormInputContainer>
         <label htmlFor="email">Email*</label>
         <input type="email" id='email' placeholder='Enter your email' {...register('email')} />
