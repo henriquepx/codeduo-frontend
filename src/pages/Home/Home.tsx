@@ -99,12 +99,13 @@ const Home = () => {
         </HeaderSection>
 
         <Main>
-          <h1>Seja bem-vindo ao Codeduo!</h1>
-          <p>Utilize o menu lateral para criar ou entrar em uma sala.</p>
-          <p>Clique no botão <FaPlus style={{ color: '#333', margin: '0 7px' }} size={20} /> para criar uma nova sala.</p>
-          <p>Clique no botão <BsFillDoorOpenFill style={{ color: '#333', margin: '0 7px' }} size={20} /> para entrar em uma sala existente.</p>
-          <p>Clique no botão <FaInfoCircle style={{ color: '#333', margin: '0 7px' }} size={20} /> para saber mais sobre o projeto.</p>
-        </Main>
+            <Title>Seja bem-vindo ao Codeduo!</Title>
+            <div>
+            <p><FaPlus style={{ color: '#333', margin: '0 7px' }} size={20} /> para criar uma nova sala.</p>
+            <p><BsFillDoorOpenFill style={{ color: '#333', margin: '0 7px' }} size={20} /> para entrar em uma sala existente.</p>
+            <p><FaInfoCircle style={{ color: '#333', margin: '0 7px' }} size={20} /> para saber mais sobre o projeto.</p>
+          </div>
+          </Main>
       </SectionHomeContent>
 
       {isModalOpen && (

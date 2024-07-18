@@ -59,7 +59,10 @@ export const Main = styled.main`
   h1 {
     font-size: 1.1rem;
     font-weight: 700;
-    margin-bottom: .8rem;
+  }
+  div {
+    align-items: left;
+    margin-top: 1rem;
   }
   p {
     font-size: .9rem;
