@@ -2,23 +2,27 @@ import { useEffect, useRef, useState } from 'react';
 import { ChangeEvent, KeyboardEvent } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { FaChevronRight, FaGithub, FaLinkedin, FaTiktok, FaInfoCircle, FaPlus } from 'react-icons/fa';
+import { FaChevronRight, FaInfoCircle, FaPlus, FaCog  } from 'react-icons/fa';
 import { BsFillDoorOpenFill, BsFillSendFill } from "react-icons/bs";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { IoIosClose } from "react-icons/io";
-import HenriqueLogo from '../../assets/henrique.png';
 import { Logo } from '../../components/Logo';
 import * as Monaco from 'monaco-editor';
 import MonacoEditor from 'react-monaco-editor';
 import { io } from 'socket.io-client';
 import { FaArrowLeftLong } from 'react-icons/fa6';
-import { HomeContainer, AsideHome, HeaderAsideHome, SectionHomeContent,HeaderSection , HeaderLeftDiv, HeaderRightDiv , LinkStylesBack, Title, Description, ButtonAside, SocialLinks, Icon, ModalOverlay, ModalHeader, ModalContent, InputContainer, Input, ConfirmButton, EditorContainer, ButtonInvite } from './Room.style.ts';
+import { HomeContainer, AsideHome, HeaderAsideHome, ModalContentConfigs, SectionHomeContent,HeaderSection , HeaderLeftDiv, HeaderRightDiv , LinkStylesBack, Title, ButtonAside, ModalOverlay, ModalHeader, ModalContent, InputContainer, Input, ConfirmButton, EditorContainer, ButtonInvite, Select, Option, Label } from './Room.style.ts';
+import DropdownInfo from '../../components/DropdownInfo.tsx';
 
 const Room = () => {
   const navigate = useNavigate();
   const [roomCode, setRoomCode] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  const [editorTheme, setEditorTheme] = useState('vs-light');
+  const [editorLanguage, setEditorLanguage] = useState('javascript');
 
   const createRoom = () => {
     const id = uuidv4().slice(0, 5);
@@ -31,6 +35,10 @@ const Room = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const toggleSettingsModal = () => {
+    setIsSettingsOpen(!isSettingsOpen);
   };
 
   const handleRoomIdChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +94,7 @@ const Room = () => {
   };
 
   const copyToClipboard = () => {
-    const roomUrl = `Entre na plataforma e clique em entrar na sala utilizando o seguinte roomCode: ${roomId}`;
+    const roomUrl = `Faça o login [https://codeduo.vercel.app/], clique em entrar na sala utilizando o seguinte roomCode: ${roomId}`;
     navigator.clipboard.writeText(roomUrl).then(() => {
       alert('Room URL copied to clipboard');
     }, () => {
@@ -106,18 +114,18 @@ const Room = () => {
           </div>
         </HeaderAsideHome>
         <div>
-          <Link to="/"><RiLogoutBoxFill size={24} style={{ color: '#333' }} /></Link>
+        <ButtonAside><Link to="/"><RiLogoutBoxFill size={24} style={{ color: '#333' }} /></Link></ButtonAside>
         </div>
       </AsideHome>
 
       <SectionHomeContent>
         <HeaderSection>
           <HeaderLeftDiv>
-            <LinkStylesBack to="/home"><FaArrowLeftLong size={24} /><Title>${}</Title></LinkStylesBack>
+            <LinkStylesBack to="/home"><FaArrowLeftLong size={24} /><Title>Return</Title></LinkStylesBack>
           </HeaderLeftDiv>
           <HeaderRightDiv>
-            <img src={HenriqueLogo} style={{ width: '40px', borderRadius: '50%' }} alt="Foto de perfil" />
             <ButtonInvite onClick={copyToClipboard}>Invite <BsFillSendFill /></ButtonInvite>
+            <ButtonAside onClick={toggleSettingsModal}><FaCog size={24} style={{ color: '#333' }} /></ButtonAside>
           </HeaderRightDiv>
         </HeaderSection>
 
@@ -126,8 +134,8 @@ const Room = () => {
             <MonacoEditor
               width="100%"
               height="100%"
-              language="javascript"
-              theme="vs-light"
+              language={editorLanguage}
+              theme={editorTheme}
               value={code}
               editorDidMount={(editor) => (editorRef.current = editor)}
               onChange={handleEditorChange}
@@ -170,30 +178,37 @@ const Room = () => {
           </ModalContent>
         </ModalOverlay>
       )}
-
       {isInfoOpen && (
-            <ModalOverlay>
-              <ModalContent>
-                <ConfirmButton onClick={toggleInfoDropdown}>
-                  <FaChevronRight />
-                </ConfirmButton>
-                <Description>
-                  Crie uma sala e convide amigos para codar juntos ou resolver problemas específicos!
-                </Description>
-                <SocialLinks>
-                  <Icon href="https://www.linkedin.com/in/henriquepinheiroxavier/" target="_blank">
-                    <FaLinkedin />
-                  </Icon>
-                  <Icon href="https://www.tiktok.com/@henriqqdev" target="_blank">
-                    <FaTiktok />
-                  </Icon>
-                  <Icon href="https://github.com/henriquepx" target="_blank">
-                    <FaGithub />
-                  </Icon>
-                </SocialLinks>
-              </ModalContent>
-            </ModalOverlay>
-          )}
+        <DropdownInfo onClose={() => setIsInfoOpen(false)}  />
+      )}
+      {isSettingsOpen && (
+        <ModalOverlay>
+          <ModalContentConfigs>
+            <ModalHeader>
+              <p>Configs</p>
+              <IoIosClose onClick={toggleSettingsModal} size={40} style={{ cursor: 'pointer' }} data-testid="close-settings-modal" />
+                </ModalHeader>
+                <div> 
+                  <div>
+                    <Label>Theme:</Label>
+                    <Select onChange={(e) => setEditorTheme(e.target.value)} value={editorTheme}>
+                      <Option value="vs-light">Claro</Option>
+                      <Option value="vs-dark">Escuro</Option>
+                    </Select>
+                  </div>
+                  <div style={{ marginTop: '15px' }}>
+                    <Label>Language Formatting</Label>
+                    <Select onChange={(e) => setEditorLanguage(e.target.value)} value={editorLanguage}>
+                      <Option value="javascript">JavaScript</Option>
+                      <Option value="typescript">TypeScript</Option>
+                      <Option value="python">Python</Option>
+                    </Select>
+                  </div>
+                </div>
+          </ModalContentConfigs>
+        </ModalOverlay>
+      )}
+
     </HomeContainer>
   );
 };

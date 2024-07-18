@@ -47,7 +47,6 @@ export const HeaderLeftDiv = styled.div`
 export const HeaderRightDiv = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
 `;
 export const LinkStylesBack = styled(Link)`
   display: flex;
@@ -64,12 +63,6 @@ export const Title = styled.h1`
   font-size: 1.5rem;
   font-weight: 700;
   color: #333;
-`;
-export const Description = styled.p`
-  font-size: 1.2rem;
-  color: #666;
-  margin-bottom: 0.5rem;
-  line-height: 1.6;
 `;
 export const ButtonAside = styled.button`
   background: #ffffff; 
@@ -107,21 +100,6 @@ export const Button = styled.button`
     border-color: #bbb;
   }
 `;
-export const SocialLinks = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-`;
-export const Icon = styled.a`
-  color: #333;
-  font-size: 1.5rem;
-  margin: 0 10px;
-  transition: color 0.3s ease;
-
-  &:hover {
-    color: #555;
-  }
-`;
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -147,7 +125,16 @@ export const ModalContent = styled.div`
   border-radius: 15px;
   padding: 1rem;
   width: 80%;
-  max-width: 400px;
+  max-width: 330px;
+  z-index: 999;
+`;
+export const ModalContentConfigs = styled(ModalContent)`
+  background: #ffffff;
+  border: 2px solid #ddd;
+  border-radius: 15px;
+  padding: 1rem;
+  width: 80%;
+  max-width: 230px;
   z-index: 999;
 `;
 export const InputContainer = styled.div`
@@ -155,7 +142,6 @@ export const InputContainer = styled.div`
   align-items: center;
   margin-bottom: 1rem;
 `;
-
 export const Input = styled.input`
   flex: 1;
   padding: 0.8rem;
@@ -180,7 +166,7 @@ export const ConfirmButton = styled.button`
   }
 `;
 export const EditorContainer = styled.div`
-  height: 92vh;
+  height: 92.9vh;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -189,5 +175,26 @@ export const EditorContainer = styled.div`
   overflow: hidden;
 `;
 export const ButtonInvite = styled(Button)`
-gap: 5px;
+  gap: 5px;
 `
+export const Select = styled.select`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+  font-size: 14px;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+  &:hover {
+    border-color: #007bff;
+  }
+`;
+export const Option = styled.option`
+  font-size: 14px;
+`;
+export const Label = styled.label`
+  display: block;
+  font-size: 14px;
+  color: #333;
+`;
