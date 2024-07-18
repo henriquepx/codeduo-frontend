@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import BackgroundImage from '../assets/wpp.png';
-import Form from '../components/Form';
+import BackgroundImage from '../../assets/wpp.png';
 
-const LoginPageContainer = styled.div`
+export const LoginPageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,7 +9,7 @@ const LoginPageContainer = styled.div`
   height: 100vh;
   padding: 1.5rem;
 `;
-const FormContainer = styled.div`
+export const FormContainer = styled.div`
   width: 45%;
   height: 100%;
   display: flex;
@@ -20,7 +19,7 @@ const FormContainer = styled.div`
     width: 90%;
   }
 `;
-const PhotosSlider = styled.div`
+export const PhotosSlider = styled.div`
   width: 55%;
   height: 100%;
   background-image: url(${BackgroundImage});
@@ -34,16 +33,3 @@ const PhotosSlider = styled.div`
     display: none;
   }
 `;
-
-const Login = () => {
-  return (
-    <LoginPageContainer>
-      <PhotosSlider />
-      <FormContainer>
-        <Form />
-      </FormContainer>
-    </LoginPageContainer>
-  );
-};
-
-export default Login;
