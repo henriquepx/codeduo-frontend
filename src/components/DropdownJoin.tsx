@@ -84,7 +84,7 @@ const DropdownJoin: React.FC<DropdownJoinProps> = ({
     <ModalOverlay>
       <ModalContent>
         <ModalHeader>
-          <p>enjoy ;)</p>
+          <p>join room</p>
           <IoIosClose onClick={onClose} size={40} style={{ cursor: 'pointer' }} />
         </ModalHeader>
         <InputContainer>

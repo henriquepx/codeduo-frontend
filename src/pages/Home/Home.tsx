@@ -1,16 +1,15 @@
-import { useState } from 'react';
-import { ChangeEvent, KeyboardEvent } from 'react';
+import { useState, ChangeEvent, KeyboardEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { FaChevronRight, FaInfoCircle, FaPlus } from 'react-icons/fa';
 import { BsFillDoorOpenFill } from "react-icons/bs";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { IoIosClose } from "react-icons/io";
-import HenriqueLogo from '../../assets/henrique.png';
 import { Logo } from '../../components/Logo';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import DropdownInfo from '../../components/DropdownInfo';
+import DropdownProfile from '../../components/DropdownProfile';
 import { 
   HomeContainer,
   AsideHome,
@@ -30,13 +29,19 @@ import {
   ConfirmButton
 } from './Home.style.ts';
 
+interface User {
+  id: string;
+  username: string;
+  profilePicture?: string; // Use optional chaining if profilePicture might be undefined
+}
 
 const Home = () => {
   const navigate = useNavigate();
-  const currentUser = useSelector((state: RootState) => state.user.currentUser); 
+  const currentUser = useSelector((state: RootState) => state.user.currentUser) as User; 
   const [roomCode, setRoomCode] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const createRoom = () => {
     const id = uuidv4().slice(0, 5);
@@ -49,6 +54,10 @@ const Home = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleProfileModal = () => {
+    setIsProfileOpen(!isProfileOpen);
   };
 
   const handleRoomIdChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +103,12 @@ const Home = () => {
             <Title>Olá, {currentUser?.username}!</Title>
           </HeaderLeftDiv>
           <HeaderRightDiv>
-            <img src={HenriqueLogo} style={{ width: '40px', borderRadius: '50%' }} alt="Foto de perfil" />
+            <img 
+              src={currentUser?.profilePicture || 'default-profile-picture.png'} 
+              onClick={handleProfileModal} 
+              style={{ width: '40px', borderRadius: '50%' }} 
+              alt="Foto de perfil" 
+            />
           </HeaderRightDiv>
         </HeaderSection>
 
@@ -130,9 +144,11 @@ const Home = () => {
           </ModalContent>
         </ModalOverlay>
       )}
-
       {isInfoOpen && (
         <DropdownInfo onClose={() => setIsInfoOpen(false)} />
+      )}
+      {isProfileOpen && (
+        <DropdownProfile onClose={() => setIsProfileOpen(false)} />
       )}
     </HomeContainer>
   );

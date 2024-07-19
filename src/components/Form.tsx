@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { FaSpinner } from 'react-icons/fa';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form'; 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -124,6 +125,13 @@ const ErrorForm = styled.p`
   color: red;
   font-size: .8rem;
 `
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+const Spinner = styled(FaSpinner)`
+  animation: ${spin} 1s linear infinite;
+`;
 
 
 const loginSchema = z.object({
@@ -180,7 +188,9 @@ const Form = () => {
           <a>Esqueci a senha</a>
         </ContainerResetCheckbox>
         
-        <Button type="submit">{loading ? 'Carregando...' : 'Entrar'}</Button>
+        <Button type="submit">
+          {loading ? <Spinner /> : 'Entrar'}
+        </Button>
         
         <Divider><span>ou</span></Divider>
         
