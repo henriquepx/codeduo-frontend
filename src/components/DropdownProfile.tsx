@@ -200,9 +200,13 @@ const DropdownProfile: React.FC<DropdownInfoProps> = ({ onClose }) => {
         `https://codeduo-backend.onrender.com/api/user/update/${currentUser._id}`,
         formData,
         {
+          headers: {
+            'Content-Type': 'application/json',
+          },
           withCredentials: true,
         }
       );
+      console.log('Received response:', data);
       if (data.success === false) {
         dispatch(updateUserFailure(data.message));
         return;
@@ -212,6 +216,7 @@ const DropdownProfile: React.FC<DropdownInfoProps> = ({ onClose }) => {
     } catch (err) {
       if (err instanceof Error) {
         dispatch(updateUserFailure(err.message));
+        console.error('Error updating user:', err.message);
       } else {
         dispatch(updateUserFailure('An unknown error occurred'));
       }
@@ -236,7 +241,7 @@ const DropdownProfile: React.FC<DropdownInfoProps> = ({ onClose }) => {
   };
   const handleSignOut = async () => {
     try {
-      await axios.post('https://codeduo-backend.onrender.com/api/auth/signout');
+      await axios.get('https://codeduo-backend.onrender.com/api/auth/signout');
       dispatch(signOut());
     } catch (err) {
       if (err instanceof Error) {
