@@ -32,7 +32,7 @@ import {
 interface User {
   id: string;
   username: string;
-  profilePicture?: string; // Use optional chaining if profilePicture might be undefined
+  profilePicture?: string;
 }
 
 const Home = () => {
@@ -106,7 +106,7 @@ const Home = () => {
             <img 
               src={currentUser?.profilePicture || 'default-profile-picture.png'} 
               onClick={handleProfileModal} 
-              style={{ width: '40px', borderRadius: '50%' }} 
+              style={{ width: '40px', borderRadius: '50%', cursor: 'pointer' }}  
               alt="Foto de perfil" 
             />
           </HeaderRightDiv>
@@ -126,7 +126,7 @@ const Home = () => {
         <ModalOverlay>
           <ModalContent>
             <ModalHeader>
-              <p>enjoy ;)</p>
+              <p>enter and enjoy</p>
               <IoIosClose onClick={handleCloseModal} size={40} style={{ cursor: 'pointer' }} />
             </ModalHeader>
             <InputContainer>

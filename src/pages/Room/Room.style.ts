@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export const HomeContainer = styled.div`
   display: flex;
   height: 100vh;
-  width: 100vw;
+  width: 99vw;
   background: #f8f9fa;
 `;
 export const AsideHome = styled.aside`
@@ -42,7 +42,6 @@ export const HeaderSection = styled.header`
 export const HeaderLeftDiv = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
 `;
 export const HeaderRightDiv = styled.div`
   display: flex;
@@ -51,7 +50,7 @@ export const HeaderRightDiv = styled.div`
 export const LinkStylesBack = styled(Link)`
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 8px;
   text-decoration: none;
   color: #333;
 
@@ -166,7 +165,7 @@ export const ConfirmButton = styled.button`
   }
 `;
 export const EditorContainer = styled.div`
-  height: 92.9vh;
+  height: 91vh;
   flex: 1;
   display: flex;
   flex-direction: column;

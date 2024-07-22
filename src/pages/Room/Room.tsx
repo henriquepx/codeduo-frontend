@@ -22,7 +22,6 @@ const Room = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const [editorTheme, setEditorTheme] = useState('vs-light');
-  const [editorLanguage, setEditorLanguage] = useState('javascript');
 
   const createRoom = () => {
     const id = uuidv4().slice(0, 5);
@@ -134,7 +133,7 @@ const Room = () => {
             <MonacoEditor
               width="100%"
               height="100%"
-              language={editorLanguage}
+              language="javascript"
               theme={editorTheme}
               value={code}
               editorDidMount={(editor) => (editorRef.current = editor)}
@@ -185,7 +184,7 @@ const Room = () => {
         <ModalOverlay>
           <ModalContentConfigs>
             <ModalHeader>
-              <p>Configs</p>
+              <p>configs</p>
               <IoIosClose onClick={toggleSettingsModal} size={40} style={{ cursor: 'pointer' }} data-testid="close-settings-modal" />
                 </ModalHeader>
                 <div> 
@@ -194,14 +193,6 @@ const Room = () => {
                     <Select onChange={(e) => setEditorTheme(e.target.value)} value={editorTheme}>
                       <Option value="vs-light">Claro</Option>
                       <Option value="vs-dark">Escuro</Option>
-                    </Select>
-                  </div>
-                  <div style={{ marginTop: '15px' }}>
-                    <Label>Language Formatting</Label>
-                    <Select onChange={(e) => setEditorLanguage(e.target.value)} value={editorLanguage}>
-                      <Option value="javascript">JavaScript</Option>
-                      <Option value="typescript">TypeScript</Option>
-                      <Option value="python">Python</Option>
                     </Select>
                   </div>
                 </div>
