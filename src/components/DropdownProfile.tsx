@@ -196,7 +196,13 @@ const DropdownProfile: React.FC<DropdownInfoProps> = ({ onClose }) => {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      const { data } = await axios.put(`https://codeduo-backend.onrender.com/api/user/update/${currentUser._id}`, formData);
+      const { data } = await axios.put(
+        `https://codeduo-backend.onrender.com/api/user/update/${currentUser._id}`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
       if (data.success === false) {
         dispatch(updateUserFailure(data.message));
         return;
