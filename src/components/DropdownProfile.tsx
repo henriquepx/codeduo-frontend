@@ -225,7 +225,9 @@ const DropdownProfile: React.FC<DropdownInfoProps> = ({ onClose }) => {
   const handleDeleteAccount = async () => {
     try {
       dispatch(deleteUserStart());
-      const { data } = await axios.delete(`https://codeduo-backend.onrender.com/api/user/delete/${currentUser._id}`);
+      const { data } = await axios.delete(`https://codeduo-backend.onrender.com/api/user/delete/${currentUser._id}` ,
+        { withCredentials: true }
+      );
       if (data.success === false) {
         dispatch(deleteUserFailure(data.message));
         return;
@@ -241,7 +243,9 @@ const DropdownProfile: React.FC<DropdownInfoProps> = ({ onClose }) => {
   };
   const handleSignOut = async () => {
     try {
-      await axios.get('https://codeduo-backend.onrender.com/api/auth/signout');
+      await axios.get('https://codeduo-backend.onrender.com/api/auth/signout',
+        { withCredentials: true }
+      );
       dispatch(signOut());
     } catch (err) {
       if (err instanceof Error) {
