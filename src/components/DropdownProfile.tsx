@@ -153,6 +153,7 @@ interface UserState {
 
 const DropdownProfile: React.FC<DropdownInfoProps> = ({ onClose }) => {
   const dispatch = useDispatch();
+  axios.defaults.withCredentials = true;
   const fileRef = useRef<HTMLInputElement | null>(null);
   const [image, setImage] = useState<File | undefined>(undefined);
   const [imagePercent, setImagePercent] = useState<number>(0);
