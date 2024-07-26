@@ -1,5 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { FaSpinner } from 'react-icons/fa';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -106,6 +107,13 @@ const ErrorForm = styled.p`
   font-size: 1rem;
   margin: .5rem 0;
 `;
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+const Spinner = styled(FaSpinner)`
+  animation: ${spin} 1s linear infinite;
+`;
 
 const registerSchema = z.object({
   username: z.string().min(5, 'Nome de usuário deve ter no mínimo 5 caracteres').nonempty('Nome de usuário é obrigatório'),
@@ -160,7 +168,7 @@ const RegisterForm = () => {
         <input type="password" id='password' placeholder='Enter your password' {...register('password')} />
         {errors.password && <ErrorForm>{errors.password.message}</ErrorForm>}
         
-        <Button type="submit"> {loading ? 'Registrando...' : 'Registrar-se'}</Button>
+        <Button type="submit"> {loading ? <Spinner /> : 'Registrar-se'}</Button>
 
         {error && <ErrorForm>Erro ao registrar-se</ErrorForm>}
         
