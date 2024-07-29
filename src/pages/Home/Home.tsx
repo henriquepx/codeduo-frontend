@@ -104,7 +104,7 @@ const Home = () => {
           </HeaderLeftDiv>
           <HeaderRightDiv>
             <img 
-              src={currentUser?.profilePicture || 'default-profile-picture.png'} 
+              src={currentUser?.profilePicture || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSteItzPyeDKBxyWiOA8xrPZXIlxOYv1b1VVg&s'} 
               onClick={handleProfileModal} 
               style={{ width: '40px', borderRadius: '50%', cursor: 'pointer' }}  
               alt="Foto de perfil" 

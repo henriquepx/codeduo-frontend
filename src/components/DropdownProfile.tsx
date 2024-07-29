@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { app } from '../firebase';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
   updateUserStart,
@@ -160,6 +161,7 @@ const DropdownProfile: React.FC<DropdownInfoProps> = ({ onClose }) => {
   const [imageError, setImageError] = useState<boolean>(false);
   const [formData, setFormData] = useState<{ [key: string]: string }>({});
   const [updateSuccess, setUpdateSuccess] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const { currentUser, loading } = useSelector((state: { user: UserState }) => state.user);
 
@@ -241,6 +243,7 @@ const DropdownProfile: React.FC<DropdownInfoProps> = ({ onClose }) => {
         return;
       }
       dispatch(deleteUserSuccess(data));
+      navigate('/');
     } catch (err) {
       if (err instanceof Error) {
         dispatch(deleteUserFailure(err.message));
@@ -255,6 +258,7 @@ const DropdownProfile: React.FC<DropdownInfoProps> = ({ onClose }) => {
         { withCredentials: true }
       );
       dispatch(signOut());
+      navigate('/');
     } catch (err) {
       if (err instanceof Error) {
         console.log(err.message);
@@ -263,6 +267,10 @@ const DropdownProfile: React.FC<DropdownInfoProps> = ({ onClose }) => {
       }
     }
   };
+
+  if (!currentUser) {
+    return null;
+  }
 
   return (
     <ModalOverlay>
@@ -281,7 +289,7 @@ const DropdownProfile: React.FC<DropdownInfoProps> = ({ onClose }) => {
               onChange={(e: ChangeEvent<HTMLInputElement>) => setImage(e.target.files ? e.target.files[0] : undefined)}
             />
             <ImageProfile
-              src={formData.profilePicture || currentUser.profilePicture}
+              src={formData.profilePicture || currentUser.profilePicture || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSteItzPyeDKBxyWiOA8xrPZXIlxOYv1b1VVg&s'}
               alt='Profile'
               onClick={() => fileRef.current?.click()}
             />
