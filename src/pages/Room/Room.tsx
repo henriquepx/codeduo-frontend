@@ -11,7 +11,7 @@ import * as Monaco from 'monaco-editor';
 import MonacoEditor from 'react-monaco-editor';
 import { io } from 'socket.io-client';
 import { FaArrowLeftLong } from 'react-icons/fa6';
-import { HomeContainer, AsideHome, HeaderAsideHome, ModalContentConfigs, SectionHomeContent,HeaderSection , HeaderLeftDiv, HeaderRightDiv , LinkStylesBack, Title, ButtonAside, ModalOverlay, ModalHeader, ModalContent, InputContainer, Input, ConfirmButton, EditorContainer, ButtonInvite, Select, Option, Label } from './Room.style.ts';
+import { HomeContainer, AsideHome, HeaderAsideHome, ModalContentConfigs, SectionHomeContent,HeaderSection , HeaderLeftDiv, HeaderRightDiv , LinkStylesBack, Title, ButtonAside, ModalOverlay, ModalHeader, ModalContent, InputContainer, Input, ConfirmButton, EditorContainer, ButtonInvite, Select, Option, Label, UsersList, UserItem } from './Room.style.ts';
 import DropdownInfo from '../../components/DropdownInfo.tsx';
 
 const Room = () => {
@@ -20,8 +20,8 @@ const Room = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
   const [editorTheme, setEditorTheme] = useState('vs-light');
+  const [users, setUsers] = useState<string[]>([]);
 
   const createRoom = () => {
     const id = uuidv4().slice(0, 5);
@@ -75,6 +75,10 @@ const Room = () => {
       setCode(newCode);
     });
 
+    socketInstance.on('updateUserList', (userList: string[]) => {
+      setUsers(userList);
+    });
+
     return () => {
       socketInstance.disconnect();
     };
@@ -113,7 +117,7 @@ const Room = () => {
           </div>
         </HeaderAsideHome>
         <div>
-        <ButtonAside><Link to="/"><RiLogoutBoxFill size={24} style={{ color: '#333' }} /></Link></ButtonAside>
+          <ButtonAside><Link to="/"><RiLogoutBoxFill size={24} style={{ color: '#333' }} /></Link></ButtonAside>
         </div>
       </AsideHome>
 
@@ -152,6 +156,11 @@ const Room = () => {
               }}
             />
           </EditorContainer>
+          <UsersList>
+            {users.map((user, index) => (
+              <UserItem key={index}>{user}</UserItem>
+            ))}
+          </UsersList>
         </main>
       </SectionHomeContent>
 
@@ -199,7 +208,6 @@ const Room = () => {
           </ModalContentConfigs>
         </ModalOverlay>
       )}
-
     </HomeContainer>
   );
 };

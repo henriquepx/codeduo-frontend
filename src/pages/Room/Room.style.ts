@@ -25,6 +25,17 @@ export const HeaderAsideHome = styled.div`
   align-items: center;
   gap: 30px;
 `;
+export const UsersList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+export const UserItem = styled.li`
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  font-size: 14px;
+  color: #333;
+`;
 export const SectionHomeContent = styled.section`
   display: flex;
   flex-direction: column;
