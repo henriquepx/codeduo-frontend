@@ -43,11 +43,6 @@ export const HeaderLeftDiv = styled.div`
   align-items: center;
   gap: 10px;
 `;
-export const HeaderRightDiv = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
 export const Main = styled.main`
   display: flex;
   justify-content: center;

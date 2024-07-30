@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface UserState {
-  currentUser: { id: string; username: string; profilePicture?: string } | null;
+  currentUser: { id: string; username: string; } | null;
   loading: boolean;
   error: string | boolean;
 }
@@ -20,7 +20,7 @@ const userSlice = createSlice({
       state.loading = true;
       state.error = false;
     },
-    signInSuccess: (state, action: PayloadAction<{ id: string; username: string; profilePicture?: string }>) => {
+    signInSuccess: (state, action: PayloadAction<{ id: string; username: string; }>) => {
       state.currentUser = action.payload;
       state.loading = false;
       state.error = false;
@@ -32,14 +32,12 @@ const userSlice = createSlice({
     updateUserStart: (state) => {
       state.loading = true;
     },
-    updateUserSuccess: (state, action: PayloadAction<{ profilePicture?: string }>) => {
-      if (state.currentUser) {
-        state.currentUser.profilePicture = action.payload.profilePicture;
-      }
+    updateUserSuccess: (state, action) => {
+      state.currentUser = action.payload;
       state.loading = false;
       state.error = false;
     },
-    updateUserFailure: (state, action: PayloadAction<string>) => {
+    updateUserFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
@@ -51,7 +49,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = false;
     },
-    deleteUserFailure: (state, action: PayloadAction<string>) => {
+    deleteUserFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
