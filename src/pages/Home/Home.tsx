@@ -9,7 +9,7 @@ import { Logo } from '../../components/Logo';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import DropdownInfo from '../../components/DropdownInfo';
-import DropdownProfile from '../../components/DropdownProfile';
+// import DropdownProfile from '../../components/DropdownProfile';
 import { 
   HomeContainer,
   AsideHome,
@@ -147,9 +147,9 @@ const Home = () => {
       {isInfoOpen && (
         <DropdownInfo onClose={() => setIsInfoOpen(false)} />
       )}
-      {isProfileOpen && (
+      {/* {isProfileOpen && (
         <DropdownProfile onClose={() => setIsProfileOpen(false)} />
-      )}
+      )} */}
     </HomeContainer>
   );
 };
