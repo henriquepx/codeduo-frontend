@@ -8,7 +8,10 @@ import { IoIosClose } from "react-icons/io";
 import { Logo } from '../../components/Logo';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { useDispatch } from 'react-redux';
+import { updateUserSuccess } from '../../redux/user/userSlice';
 import DropdownInfo from '../../components/DropdownInfo';
+import DropdownAvatar from '../../components/DropdownAvatar';
 // import DropdownProfile from '../../components/DropdownProfile';
 import { 
   HomeContainer,
@@ -29,14 +32,29 @@ import {
   ConfirmButton
 } from './Home.style.ts';
 
+import avatar1 from '../../assets/avatar/avatar.png';
+import avatar2 from '../../assets/avatar/avatar2.png';
+import avatar3 from '../../assets/avatar/avatar3.png';
+import avatar4 from '../../assets/avatar/avatar4.png';
+import avatar5 from '../../assets/avatar/avatar5.png';
+
 interface User {
   id: string;
   username: string;
   profilePicture?: string;
 }
 
+const avatars = [
+  avatar1,
+  avatar2,
+  avatar3,
+  avatar4,
+  avatar5,
+];
+
 const Home = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.user.currentUser) as User; 
   const [roomCode, setRoomCode] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -81,6 +99,11 @@ const Home = () => {
     setIsInfoOpen(!isInfoOpen);
   };
 
+  const handleAvatarChange = (avatar: string) => {
+    dispatch(updateUserSuccess({ profilePicture: avatar }));
+    setIsProfileOpen(false);
+  };
+
   return (
     <HomeContainer>
       <AsideHome>
@@ -103,7 +126,7 @@ const Home = () => {
             <Title>Olá, {currentUser?.username}!</Title>
           </HeaderLeftDiv>
           <HeaderRightDiv>
-            <img 
+          <img 
               src={currentUser?.profilePicture || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSteItzPyeDKBxyWiOA8xrPZXIlxOYv1b1VVg&s'} 
               onClick={handleProfileModal} 
               style={{ width: '40px', borderRadius: '50%', cursor: 'pointer' }}  
@@ -146,6 +169,9 @@ const Home = () => {
       )}
       {isInfoOpen && (
         <DropdownInfo onClose={() => setIsInfoOpen(false)} />
+      )}
+      {isProfileOpen && (
+        <DropdownAvatar avatars={avatars} onSelect={handleAvatarChange} />
       )}
       {/* {isProfileOpen && (
         <DropdownProfile onClose={() => setIsProfileOpen(false)} />

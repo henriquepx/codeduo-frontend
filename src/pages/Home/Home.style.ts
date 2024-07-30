@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const HomeContainer = styled.div`
   display: flex;
-  height: 100vh;
+  height: 100dvh;
   width: 100vw;
   background: #f8f9fa;
 `;
@@ -75,6 +75,9 @@ export const Title = styled.h1`
   font-size: 1.5rem;
   font-weight: 700;
   color: #333;
+  @media (max-width: 500px) {
+    font-size: 1rem;
+  }
 `;
 export const ButtonAside = styled.button`
   background: #ffffff; 
