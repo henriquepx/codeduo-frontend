@@ -6,7 +6,7 @@ export const LoginPageContainer = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  height: 100vh;
+  height: 100dvh;
   padding: 1.5rem;
 `;
 export const FormContainer = styled.div`

@@ -15,7 +15,7 @@ export const AsideHome = styled.aside`
   border-right: 1px solid #dee2e6;
   color: #000;
   width: 5rem;
-  padding: 2rem;
+  padding: 2rem 2rem 1rem 2rem;
 `;
 export const HeaderAsideHome = styled.div`
   display: flex;

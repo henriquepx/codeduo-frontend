@@ -101,9 +101,9 @@ const Home = () => {
         <Main>
             <Title>Seja bem-vindo ao Codeduo!</Title>
             <div>
-            <p><FaPlus style={{ color: '#333', margin: '0 7px' }} size={20} /> para criar uma nova sala.</p>
-            <p><BsFillDoorOpenFill style={{ color: '#333', margin: '0 7px' }} size={20} /> para entrar em uma sala existente.</p>
-            <p><FaInfoCircle style={{ color: '#333', margin: '0 7px' }} size={20} /> para saber mais sobre o projeto.</p>
+            <p><FaPlus style={{ color: '#333', margin: '0 7px' }} size={20} />: Criar uma nova sala.</p>
+            <p><BsFillDoorOpenFill style={{ color: '#333', margin: '0 7px' }} size={20} />: Entrar em uma sala existente.</p>
+            <p><FaInfoCircle style={{ color: '#333', margin: '0 7px' }} size={20} />: Saber mais sobre o projeto.</p>
           </div>
           </Main>
       </SectionHomeContent>
