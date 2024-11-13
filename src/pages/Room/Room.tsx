@@ -157,8 +157,8 @@ const Room = () => {
             />
           </EditorContainer>
           <UsersList>
-            {users.map((user, index) => (
-              <UserItem key={index}>{user}</UserItem>
+            {users.map((userId, index) => (
+              <UserItem key={index}>{userId}</UserItem> // Renderiza o userId corretamente
             ))}
           </UsersList>
         </main>
